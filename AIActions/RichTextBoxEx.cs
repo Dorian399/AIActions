@@ -65,9 +65,12 @@ class RichTextBoxEx : RichTextBox
                 this.Text = this.Text.Insert(caret, Environment.NewLine);
                 this.SelectionStart = caret + Environment.NewLine.Length;
             }
+            else
+            {
+                EnterPressed?.Invoke(this, e);
+            }
 
-            e.SuppressKeyPress = true;
-            EnterPressed?.Invoke(this,e);
+                e.SuppressKeyPress = true;
         }
 
         base.OnKeyDown(e);

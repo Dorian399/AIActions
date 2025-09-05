@@ -35,7 +35,7 @@
             // 
             // RunAction
             // 
-            RunAction.Location = new Point(711, 45);
+            RunAction.Location = new Point(711, 52);
             RunAction.Name = "RunAction";
             RunAction.Size = new Size(77, 29);
             RunAction.TabIndex = 1;
@@ -59,7 +59,7 @@
             PromptBox.Location = new Point(8, 12);
             PromptBox.MaxLength = 5000;
             PromptBox.Name = "PromptBox";
-            PromptBox.Size = new Size(697, 63);
+            PromptBox.Size = new Size(697, 69);
             PromptBox.TabIndex = 0;
             PromptBox.Text = "";
             PromptBox.EnterPressed += PromptBox_EnterPressed;
@@ -68,7 +68,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 80);
+            ClientSize = new Size(800, 89);
             Controls.Add(Settings);
             Controls.Add(RunAction);
             Controls.Add(PromptBox);
