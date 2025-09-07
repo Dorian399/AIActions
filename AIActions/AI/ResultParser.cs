@@ -15,7 +15,7 @@ namespace AIActions.AI
         public string Script { get; private set; }
         public string Comments { get; private set; }
 
-        private class PromptParserDto
+        private class ResultParserDto
         {
             public bool accepted { get; set; }
             public string[] packages { get; set; }
@@ -29,7 +29,7 @@ namespace AIActions.AI
         {
             try
             {
-                var obj = JsonSerializer.Deserialize<PromptParserDto>(json);
+                var obj = JsonSerializer.Deserialize<ResultParserDto>(json);
 
                 if(obj.accepted == null || obj.packages == null || obj.script == null || obj.comments == null)
                 {
