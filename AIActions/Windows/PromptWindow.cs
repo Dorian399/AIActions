@@ -15,7 +15,10 @@ namespace AIActions
         private void RunAction_Click(object sender, EventArgs e)
         {
             string promptText = PromptBox.Text;
-            MessageBox.Show("Executed: " + promptText);
+            ExecutionWindow ExecWin = new ExecutionWindow(promptText);
+            ExecWin.ParentWindow = this;
+            this.Hide();
+            ExecWin.Show();
         }
 
         private void Settings_Click(object sender, EventArgs e)
