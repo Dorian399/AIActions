@@ -14,16 +14,6 @@ namespace AIActions.Configs
         private HashSet<string>? _loadedFiles;
         private Dictionary<string, object>? _currentJson;
         private string? _currentFilePath;
-        public class ParsedConfig
-        {
-            public string Codename { get; set; }
-            public string Name { get; set; }
-            public string Endpoint { get; set; }
-            public Dictionary<string, object> Request { get; set; }
-            public string ResponseJsonPath { get; set; }
-            public string Type { get; set; }
-            public Dictionary<string, string>? Headers { get; set; }
-        }
 
         public ConfigLoader() { }
 
