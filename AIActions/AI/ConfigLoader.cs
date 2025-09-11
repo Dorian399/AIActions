@@ -11,9 +11,9 @@ namespace AIActions.AI
 {
     internal class ConfigLoader
     {
-        private HashSet<string>? loadedFiles;
-        private Dictionary<string, object>? currentJson;
-        private string? currentFilePath;
+        private HashSet<string>? _loadedFiles;
+        private Dictionary<string, object>? _currentJson;
+        private string? _currentFilePath;
         internal class ParsedConfig
         {
             public string Codename { get; set; }
@@ -27,7 +27,7 @@ namespace AIActions.AI
 
         public ConfigLoader() { }
 
-        private async Task<Dictionary<string, object>?> loadBase(string filePath)
+        private async Task<Dictionary<string, object>?> LoadBase(string filePath)
         {
             if (!File.Exists(filePath))
             {
@@ -50,12 +50,12 @@ namespace AIActions.AI
                 return null;
             }
 
-            Dictionary<string, object> jsonFinal = await setupBase(jsonParsed, filePath);
+            Dictionary<string, object> jsonFinal = await SetupBase(jsonParsed, filePath);
 
             return jsonFinal;
         }
 
-        private async Task<Dictionary<string, object>?> setupBase(Dictionary<string, object> jsonParsed, string filePath)
+        private async Task<Dictionary<string, object>?> SetupBase(Dictionary<string, object> jsonParsed, string filePath)
         {
             Dictionary<string, object> jsonBase;
             // Load base if exists and is longer than 0.
@@ -85,7 +85,7 @@ namespace AIActions.AI
                 }
 
                 // Prevent infinite recursion, by checking what base file was loaded.
-                if (loadedFiles.Contains(baseString))
+                if (_loadedFiles.Contains(baseString))
                 {
                     MessageBox.Show("Potential infinite recursion detected when loading ('" + filePath + "'), consider fixing you config file");
                     return null;
@@ -93,14 +93,14 @@ namespace AIActions.AI
 
                 // Overlap the child over the base.
                 string directory = Path.GetDirectoryName(filePath);
-                jsonBase = await loadBase(Path.Combine(directory, baseString));
+                jsonBase = await LoadBase(Path.Combine(directory, baseString));
 
                 if (jsonBase == null)
                 {
                     return null;
                 }
 
-                loadedFiles.Add(baseString);
+                _loadedFiles.Add(baseString);
 
                 if (jsonBase != null)
                 {
@@ -119,14 +119,14 @@ namespace AIActions.AI
             return jsonParsed;
         }
 
-        private T? parseJsonElement<T>(string keyName)
+        private T? ParseJsonElement<T>(string keyName)
         {
-            if (currentJson == null || currentFilePath == null)
+            if (_currentJson == null || _currentFilePath == null)
             {
                 return default;
             }
 
-            if (currentJson.TryGetValue(keyName, out var elem) && elem is JsonElement vars)
+            if (_currentJson.TryGetValue(keyName, out var elem) && elem is JsonElement vars)
             {
                 try
                 {
@@ -134,14 +134,14 @@ namespace AIActions.AI
                 }
                 catch (JsonException e)
                 {
-                    MessageBox.Show("Your '" + keyName + "' key is not correct, consider fixing it. If you do not plan to use any user variables consider removing this key altogether.\nAffected file: ('" + currentFilePath + "')");
+                    MessageBox.Show("Your '" + keyName + "' key is not correct, consider fixing it. If you do not plan to use any user variables consider removing this key altogether.\nAffected file: ('" + _currentFilePath + "')");
                     return default;
                 }
             }
             return default;
         }
 
-        private static string trimQuotes(string text)
+        private static string TrimQuotes(string text)
         {
             if (text.Length < 2)
                 return text;
@@ -151,9 +151,9 @@ namespace AIActions.AI
         public async Task<ParsedConfig?> LoadFromFile(string filePath)
         {
             // Reset variables to prevent issues.
-            loadedFiles = new HashSet<string>();
-            currentJson = null;
-            currentFilePath = null;
+            _loadedFiles = new HashSet<string>();
+            _currentJson = null;
+            _currentFilePath = null;
 
             if (!File.Exists(filePath))
             {
@@ -161,10 +161,10 @@ namespace AIActions.AI
                 return null;
             }
 
-            currentFilePath = filePath;
+            _currentFilePath = filePath;
 
             //Add to loaded files to prevent infinite recursion.
-            loadedFiles.Add(Path.GetFileName(filePath));
+            _loadedFiles.Add(Path.GetFileName(filePath));
 
             string directory = Path.GetDirectoryName(filePath);
             string json = await File.ReadAllTextAsync(filePath);
@@ -182,8 +182,8 @@ namespace AIActions.AI
             }
 
             // Load base config if it exists
-            currentJson = await setupBase(jsonParsed, filePath);
-            if (currentJson == null)
+            _currentJson = await SetupBase(jsonParsed, filePath);
+            if (_currentJson == null)
             {
                 return null;
             }
@@ -192,14 +192,14 @@ namespace AIActions.AI
             Dictionary<string, string> jsonAllVariables = new Dictionary<string, string>();
 
             // Parse json_variables.
-            Dictionary<string, string>? parsedJsonVars = parseJsonElement<Dictionary<string, string>>(keyName: "json_variables");
+            Dictionary<string, string>? parsedJsonVars = ParseJsonElement<Dictionary<string, string>>(keyName: "json_variables");
             if (parsedJsonVars != null)
             {
                 jsonAllVariables = parsedJsonVars;
             }
 
             // Parse user_variables.
-            List<string>? parsedUserVars = parseJsonElement<List<string>>(keyName: "user_variables"); ;
+            List<string>? parsedUserVars = ParseJsonElement<List<string>>(keyName: "user_variables"); ;
 
             if (parsedUserVars != null)
             {
@@ -228,24 +228,24 @@ namespace AIActions.AI
             foreach (var kvp in keysToRename)
             {
                 // Modify and rename key if exist
-                if (currentJson.TryGetValue(kvp.Key, out object val) && val is JsonElement jsonVal)
+                if (_currentJson.TryGetValue(kvp.Key, out object val) && val is JsonElement jsonVal)
                 {
                     string rawVal = jsonVal.GetRawText();
                     // Loop trough vars and replace them to their values.
                     foreach (var kvpVars in jsonAllVariables)
                     {
-                        string safeVal = trimQuotes(JsonSerializer.Serialize(kvpVars.Value));
+                        string safeVal = TrimQuotes(JsonSerializer.Serialize(kvpVars.Value));
                         rawVal = rawVal.Replace("{{" + kvpVars.Key + "}}", safeVal);
                     }
                     // Apply modifications and rename the key.
                     JsonElement finalVal = JsonDocument.Parse(rawVal).RootElement;
-                    currentJson[kvp.Value] = finalVal;
-                    currentJson.Remove(kvp.Key);
+                    _currentJson[kvp.Value] = finalVal;
+                    _currentJson.Remove(kvp.Key);
                 }
             }
 
 
-            string serializedJson = JsonSerializer.Serialize(currentJson);
+            string serializedJson = JsonSerializer.Serialize(_currentJson);
 
             try
             {
