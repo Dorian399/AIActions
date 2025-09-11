@@ -7,7 +7,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace AIActions.AI
+namespace AIActions.Configs
 {
     internal class ConfigLoader
     {
