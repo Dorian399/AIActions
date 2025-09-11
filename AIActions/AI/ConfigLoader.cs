@@ -14,7 +14,7 @@ namespace AIActions.AI
         private HashSet<string>? _loadedFiles;
         private Dictionary<string, object>? _currentJson;
         private string? _currentFilePath;
-        internal class ParsedConfig
+        public class ParsedConfig
         {
             public string Codename { get; set; }
             public string Name { get; set; }
@@ -179,6 +179,13 @@ namespace AIActions.AI
             {
                 MessageBox.Show("Error loading config ('" + filePath + "'):\n" + e.ToString());
                 return null;
+            }
+
+            // Don't load when hidden=true
+            if(jsonParsed.TryGetValue("hidden",out var hiddenElem) && hiddenElem is JsonElement hidden)
+            {
+                if (hidden.GetBoolean())
+                    return null;
             }
 
             // Load base config if it exists
