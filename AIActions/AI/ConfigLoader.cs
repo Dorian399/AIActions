@@ -19,15 +19,15 @@ namespace AIActions.AI
             public string Codename { get; set; }
             public string Name { get; set; }
             public string Endpoint { get; set; }
-            public Dictionary<string,object> Request { get; set; }
+            public Dictionary<string, object> Request { get; set; }
             public string ResponseJsonPath { get; set; }
             public string Type { get; set; }
-            public Dictionary<string,string>? Headers { get; set; }
+            public Dictionary<string, string>? Headers { get; set; }
         }
 
         public ConfigLoader() { }
 
-        private async Task<Dictionary<string,object>?> loadBase(string filePath)
+        private async Task<Dictionary<string, object>?> loadBase(string filePath)
         {
             if (!File.Exists(filePath))
             {
@@ -55,7 +55,7 @@ namespace AIActions.AI
             return jsonFinal;
         }
 
-        private async Task<Dictionary<string,object>?> setupBase(Dictionary<string,object> jsonParsed,string filePath)
+        private async Task<Dictionary<string, object>?> setupBase(Dictionary<string, object> jsonParsed, string filePath)
         {
             Dictionary<string, object> jsonBase;
             // Load base if exists and is longer than 0.
@@ -64,7 +64,7 @@ namespace AIActions.AI
                 string baseString;
 
                 // no base, means its the base itself.
-                if(baseValue == null)
+                if (baseValue == null)
                 {
                     return jsonParsed;
                 }
@@ -93,9 +93,9 @@ namespace AIActions.AI
 
                 // Overlap the child over the base.
                 string directory = Path.GetDirectoryName(filePath);
-                jsonBase = await loadBase(Path.Combine(directory,baseString));
+                jsonBase = await loadBase(Path.Combine(directory, baseString));
 
-                if(jsonBase == null)
+                if (jsonBase == null)
                 {
                     return null;
                 }
@@ -121,7 +121,7 @@ namespace AIActions.AI
 
         private T? parseJsonElement<T>(string keyName)
         {
-            if(currentJson==null || currentFilePath == null)
+            if (currentJson == null || currentFilePath == null)
             {
                 return default;
             }
@@ -141,30 +141,11 @@ namespace AIActions.AI
             return default;
         }
 
-        private static string trimQuotes(string text) {
+        private static string trimQuotes(string text)
+        {
             if (text.Length < 2)
                 return text;
-            return text.Substring(1,text.Length-2).Trim();
-        } 
-
-        private string? convertJsonElementToString(string keyName,bool required)
-        {
-            if (currentJson == null || currentFilePath == null)
-            {
-                return null;
-            }
-
-            if (currentJson.TryGetValue(keyName, out var elem) && elem is JsonElement vars)
-            {
-                string text = vars.GetRawText();
-                return text;
-            }
-
-            if (required)
-            {
-                MessageBox.Show("Your '" + keyName + "' key is missing, it is required to properly operate.\nAffected file: ('" + currentFilePath + "')");
-            }
-            return null;
+            return text.Substring(1, text.Length - 2).Trim();
         }
 
         public async Task<ParsedConfig?> LoadFromFile(string filePath)
@@ -176,7 +157,7 @@ namespace AIActions.AI
 
             if (!File.Exists(filePath))
             {
-                MessageBox.Show("Config file ('"+filePath+"') not found");
+                MessageBox.Show("Config file ('" + filePath + "') not found");
                 return null;
             }
 
@@ -194,24 +175,26 @@ namespace AIActions.AI
             {
                 jsonParsed = JsonSerializer.Deserialize<Dictionary<string, object>>(json);
             }
-            catch(JsonException e)
+            catch (JsonException e)
             {
-                MessageBox.Show("Error loading config ('"+filePath+"'):\n"+e.ToString());
+                MessageBox.Show("Error loading config ('" + filePath + "'):\n" + e.ToString());
                 return null;
             }
 
             // Load base config if it exists
-            currentJson = await setupBase(jsonParsed,filePath);
-            if (currentJson == null) {
+            currentJson = await setupBase(jsonParsed, filePath);
+            if (currentJson == null)
+            {
                 return null;
             }
 
-            // This will contain json and user variables, user variables will override any duplicate json variable
+            // This will contain json and user variables, user variables will override any duplicate json variable.
             Dictionary<string, string> jsonAllVariables = new Dictionary<string, string>();
 
             // Parse json_variables.
             Dictionary<string, string>? parsedJsonVars = parseJsonElement<Dictionary<string, string>>(keyName: "json_variables");
-            if (parsedJsonVars != null) {
+            if (parsedJsonVars != null)
+            {
                 jsonAllVariables = parsedJsonVars;
             }
 
@@ -220,7 +203,7 @@ namespace AIActions.AI
 
             if (parsedUserVars != null)
             {
-                foreach(string key in parsedUserVars)
+                foreach (string key in parsedUserVars)
                 {
                     string keyval = key.Replace("{{", "").Replace("}}", ""); // To do, actually get var from user settings.
                     jsonAllVariables[key] = keyval;
@@ -228,6 +211,7 @@ namespace AIActions.AI
             }
 
             // Parse the rest and replace any variables (Except for {{PROMPT}} as it it will be replaced during the request).
+
             Dictionary<string, string> keysToRename = new Dictionary<string, string>
             {
                 ["name"] = "Name",
@@ -238,19 +222,20 @@ namespace AIActions.AI
                 ["type"] = "Type",
             };
             ParsedConfig parsedConfigs = new ParsedConfig();
+            parsedConfigs.Codename = Path.GetFileNameWithoutExtension(filePath);
 
             // Rename the keys for proper assignement to the ParsedConfig class, also replace user and json variables present in any of those elements.
             foreach (var kvp in keysToRename)
             {
                 // Modify and rename key if exist
-                if(currentJson.TryGetValue(kvp.Key, out object val) && val is JsonElement jsonVal)
+                if (currentJson.TryGetValue(kvp.Key, out object val) && val is JsonElement jsonVal)
                 {
                     string rawVal = jsonVal.GetRawText();
                     // Loop trough vars and replace them to their values.
-                    foreach(var kvvp in jsonAllVariables)
+                    foreach (var kvpVars in jsonAllVariables)
                     {
-                        string safeVal = trimQuotes(JsonSerializer.Serialize(kvvp.Value));
-                        rawVal = rawVal.Replace("{{"+kvvp.Key+"}}", safeVal);
+                        string safeVal = trimQuotes(JsonSerializer.Serialize(kvpVars.Value));
+                        rawVal = rawVal.Replace("{{" + kvpVars.Key + "}}", safeVal);
                     }
                     // Apply modifications and rename the key.
                     JsonElement finalVal = JsonDocument.Parse(rawVal).RootElement;
@@ -262,19 +247,21 @@ namespace AIActions.AI
 
             string serializedJson = JsonSerializer.Serialize(currentJson);
 
-            try {
+            try
+            {
                 parsedConfigs = JsonSerializer.Deserialize<ParsedConfig>(serializedJson);
-            }catch(JsonException e)
+            }
+            catch (JsonException e)
             {
                 MessageBox.Show("Error loading config ('" + filePath + "'):\n" + e.ToString());
                 return null;
             }
 
-            Debug.WriteLine(parsedConfigs.Name);
-            Debug.WriteLine(parsedConfigs.Endpoint);
-            Debug.WriteLine(parsedConfigs.Request);
-            Debug.WriteLine(parsedConfigs.ResponseJsonPath);
-            Debug.WriteLine(parsedConfigs.Headers);
+            if (parsedConfigs.Request == null || parsedConfigs.Endpoint == null || parsedConfigs.ResponseJsonPath == null)
+            {
+                MessageBox.Show("Error loading config ('" + filePath + "'):\n Your missing a required key (request_body, endpoint, response_jsonpath), check your config file");
+                return null;
+            }
 
             return parsedConfigs;
 
