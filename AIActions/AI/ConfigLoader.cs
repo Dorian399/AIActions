@@ -226,10 +226,9 @@ namespace AIActions.AI
                 ["request_body"] = "Request",
                 ["response_jsonpath"] = "ResponseJsonPath",
                 ["request_headers"] = "Headers",
-                ["type"] = "Type",
+                ["request_type"] = "Type",
             };
             ParsedConfig parsedConfigs = new ParsedConfig();
-            parsedConfigs.Codename = Path.GetFileNameWithoutExtension(filePath);
 
             // Rename the keys for proper assignement to the ParsedConfig class, also replace user and json variables present in any of those elements.
             foreach (var kvp in keysToRename)
@@ -257,6 +256,7 @@ namespace AIActions.AI
             try
             {
                 parsedConfigs = JsonSerializer.Deserialize<ParsedConfig>(serializedJson);
+                parsedConfigs.Codename = Path.GetFileNameWithoutExtension(filePath);
             }
             catch (JsonException e)
             {
