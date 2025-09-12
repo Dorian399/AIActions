@@ -1,0 +1,25 @@
+{
+	"name": "Gemini Base",
+	"hidden": true,
+	"json_variables": {
+		"MODEL": "model_name"
+	},
+	"user_variables": ["API_KEY"],
+	"endpoint": "https://generativelanguage.googleapis.com/v1beta/models/{{MODEL}}:generateContent",
+	"request_type": "POST",
+	"request_headers": {
+		"X-goog-api-key": "{{API_KEY}}"
+	},
+	"request_body": {
+		"contents": [
+		{
+			"parts": [
+			{
+				"text": "{{PROMPT}}"
+			}
+			]
+		}
+		]
+	},
+	"response_jsonpath": "$.candidates[*].content.parts[*].text"
+}
