@@ -1,0 +1,10 @@
+Place an embeddable Python installation with pip included.
+
+How to download and setup:
+
+1. Download the "Windows embeddable package" version of Python. https://www.python.org/ftp/python/3.13.7/python-3.13.7-embed-amd64.zip
+2. Extract the zip's content to this folder (python.exe should be located inside this directory).
+3. Open python313._pth (or the file matching your python version) in a text editor and change the line "#import site" to "import site".
+4. Download get-pip.py . https://bootstrap.pypa.io/get-pip.py
+5. Run get-pip.py (python.exe get-pip.py).
+6. Done.
