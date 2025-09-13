@@ -362,3 +362,8 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Python
+
+*/data/python/*
+!*/data/python/python_with_pip.txt
