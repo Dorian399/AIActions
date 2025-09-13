@@ -10,6 +10,7 @@ namespace AIActions.Configs
     {
         public string Codename { get; set; }
         public string Name { get; set; }
+        public string[] UserVariables { get; set; }
         public string Endpoint { get; set; }
         public Dictionary<string, object> Request { get; set; }
         public string ResponseJsonPath { get; set; }

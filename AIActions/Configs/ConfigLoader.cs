@@ -212,6 +212,7 @@ namespace AIActions.Configs
             Dictionary<string, string> keysToRename = new Dictionary<string, string>
             {
                 ["name"] = "Name",
+                ["user_variables"] = "UserVariables",
                 ["endpoint"] = "Endpoint",
                 ["request_body"] = "Request",
                 ["response_jsonpath"] = "ResponseJsonPath",
