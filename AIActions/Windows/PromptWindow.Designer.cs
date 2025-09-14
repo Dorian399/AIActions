@@ -74,7 +74,7 @@
             Controls.Add(PromptBox);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Name = "PromptWindow";
-            Text = "AIActions";
+            Text = "AI Action";
             Load += PromptWindow_Load;
             ResumeLayout(false);
         }

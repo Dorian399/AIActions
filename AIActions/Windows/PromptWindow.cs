@@ -7,11 +7,11 @@ namespace AIActions
     {
         public bool ShouldHide = false;
 
-        private string _currentFolder;
+        private string _currentFolderOrFile;
         private ParsedConfig _currentConfig;
         public PromptWindow(string? folderOrFile,ParsedConfig? configFile)
         {
-            _currentFolder = folderOrFile;
+            _currentFolderOrFile = folderOrFile;
             _currentConfig = configFile;
             InitializeComponent();
         }
@@ -35,7 +35,7 @@ namespace AIActions
         private int PromptWindow_CheckData()
         {
             int code = 0;
-            if (!Path.Exists(_currentFolder))
+            if (!Path.Exists(_currentFolderOrFile))
             {
                 MessageBox.Show("Missing file or folder. Make sure to run this program from the context menu (Right click).");
                 this.Close();
@@ -51,7 +51,7 @@ namespace AIActions
 
         private void PromptWindow_UpdateData(string? folderOrFile, ParsedConfig? configFile)
         {
-            _currentFolder = folderOrFile;
+            _currentFolderOrFile = folderOrFile;
             _currentConfig = configFile;
         }
 
@@ -60,6 +60,7 @@ namespace AIActions
             int errorCode = PromptWindow_CheckData();
             if(errorCode == 0)
             {
+                this.Text += " "+_currentFolderOrFile; 
                 this.MakePopup();
             }
         }
@@ -67,7 +68,7 @@ namespace AIActions
         private void RunAction_Click(object sender, EventArgs e)
         {
             string promptText = PromptBox.Text;
-            ExecutionWindow ExecWin = new ExecutionWindow(promptText);
+            ExecutionWindow ExecWin = new ExecutionWindow(promptText,_currentConfig,_currentFolderOrFile);
             ExecWin.ParentWindow = this;
             this.Hide();
             ExecWin.Show();
