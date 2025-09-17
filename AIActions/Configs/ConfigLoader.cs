@@ -248,6 +248,7 @@ namespace AIActions.Configs
             {
                 parsedConfigs = JsonSerializer.Deserialize<ParsedConfig>(serializedJson);
                 parsedConfigs.Codename = Path.GetFileNameWithoutExtension(filePath);
+                parsedConfigs.Type = parsedConfigs.Type.ToUpper();
             }
             catch (JsonException e)
             {
