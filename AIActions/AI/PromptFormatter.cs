@@ -23,10 +23,14 @@ namespace AIActions.AI
             {
                 promptTemplateFile= Paths.PromptFileTextFile;
             }
+            else
+            {
+                return "Bad classname: " + className + ".";
+            }
 
             if (!File.Exists(promptTemplateFile))
             {
-                return "Missing template file in ./data/prompts/";
+                return "Missing or unreadable template file in ./data/prompts/";
             }
 
             // Read template file
