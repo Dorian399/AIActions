@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace AIActions.AI
+namespace AIActions.AI.Results
 {
     internal class ResultParser
     {
@@ -25,8 +25,20 @@ namespace AIActions.AI
 
         private ResultParser() { }
 
+        private static string PrepareJson(string json)
+        {
+            int start = json.IndexOf('{');
+            int end = json.LastIndexOf('}');
+
+            if (start == -1 || end == -1 || end < start)
+                return string.Empty;
+
+            return json.Substring(start, end - start + 1);
+        }
+
         public static ResultParser FromJson(string json)
         {
+            json = PrepareJson(json);
             try
             {
                 var obj = JsonSerializer.Deserialize<ResultParserDto>(json);
