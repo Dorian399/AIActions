@@ -15,14 +15,6 @@ namespace AIActions.AI.Results
         public string Script { get; private set; }
         public string Comments { get; private set; }
 
-        private class ResultParserDto
-        {
-            public bool accepted { get; set; }
-            public string[] packages { get; set; }
-            public string script { get; set; }
-            public string comments { get; set; }
-        }
-
         private ResultParser() { }
 
         private static string PrepareJson(string json)
@@ -36,32 +28,24 @@ namespace AIActions.AI.Results
             return json.Substring(start, end - start + 1);
         }
 
-        public static ResultParser FromJson(string json)
+        public static ParsedResult FromJson(string json)
         {
             json = PrepareJson(json);
             try
             {
-                var obj = JsonSerializer.Deserialize<ResultParserDto>(json);
+                ParsedResult obj = new ParsedResult();
+                obj = JsonSerializer.Deserialize<ParsedResult>(json);
 
-                if(obj.accepted == null || obj.packages == null || obj.script == null || obj.comments == null)
+                if(obj.Accepted == null || obj.Packages == null || obj.Script == null || obj.Comments == null)
                 {
-                    return new ResultParser
-                    {
-                        IsValid = false,
-                        Comments = "Could not perform action, try again using a different prompt."
-                    };
+                    obj.IsValid = false;
+                    return obj;
                 }
 
-                return new ResultParser
-                {
-                    IsValid = true,
-                    Accepted = obj.accepted,
-                    Packages = obj.packages,
-                    Script = obj.script,
-                    Comments = obj.comments
-                };
+                obj.IsValid = true;
+                return obj;
             } catch (Exception ex) {
-                return new ResultParser
+                return new ParsedResult
                 {
                     IsValid = false,
                     Comments = ex.Message
