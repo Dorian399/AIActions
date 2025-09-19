@@ -1,4 +1,5 @@
-﻿using AIActions.Configs;
+﻿using AIActions.AI.Results;
+using AIActions.Configs;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -51,12 +52,12 @@ namespace AIActions.AI
 
             string finalPrompt = await PromptFormatter.GetPrompt(promptContext);
             // Make it json safe and remove the quotes.
-            finalPrompt = JsonSerializer.Serialize(finalPrompt).Substring(1,finalPrompt.Length - 2);
+            finalPrompt = JsonSerializer.Serialize(finalPrompt);
+            finalPrompt = finalPrompt.Substring(1, finalPrompt.Length - 2);
 
 
             // Prepare the data for the request.
 
-            ResultParser parsedResult = null;
             string requestBody = JsonSerializer.Serialize(config.Request).Replace("{{PROMPT}}",finalPrompt);
 
             Dictionary<string,string> headers = new Dictionary<string,string>();
@@ -70,6 +71,7 @@ namespace AIActions.AI
 
             OnStatusChanged?.Invoke("Sending request...", (int)StatusCode.Processing);
 
+            string result;
             try
             {
                 using HttpClient client = new HttpClient();
@@ -82,15 +84,23 @@ namespace AIActions.AI
                 }
 
                 HttpResponseMessage response = await client.SendAsync(request);
-                string result = await response.Content.ReadAsStringAsync();
+                result = await response.Content.ReadAsStringAsync();
 
             }
             catch (Exception e)
             {
                 Debug.WriteLine(e.ToString());
-                OnStatusChanged("Error: Failed to send the request: \n" + e.ToString(), (int)StatusCode.Error);
+                OnStatusChanged?.Invoke("Error: Failed to send the request: \n" + e.ToString(), (int)StatusCode.Error);
                 return;
             }
+
+            // Parse results
+
+            OnStatusChanged?.Invoke("Parsing results...", (int)StatusCode.Processing);
+
+            ParsedResult parsedResult = ResultParser.FromJson(result,config.ResponseJsonPath); 
+
+            Debug.WriteLine($"Parsed result: {parsedResult}");
 
         } 
     }
