@@ -1,8 +1,11 @@
-﻿using System;
+﻿using Json.Path;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 
 namespace AIActions.AI.Results
@@ -28,13 +31,32 @@ namespace AIActions.AI.Results
             return json.Substring(start, end - start + 1);
         }
 
-        public static ParsedResult FromJson(string json)
+        public static ParsedResult FromJson(string json,string jsonPath)
         {
             json = PrepareJson(json);
             try
             {
+                // Parse JsonPath.
+                JsonPath path = JsonPath.Parse(jsonPath);
+                JsonNode instance = JsonNode.Parse(json);
+                PathResult jsonPathResults = path.Evaluate(instance);
+
+                string jsonPathed = "";
+                foreach (Node i in jsonPathResults.Matches)
+                {
+                    jsonPathed += i.Value;
+                }
+
+                // Parse results.
+
+                json = PrepareJson(jsonPathed);
+
+                JsonSerializerOptions options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                };
                 ParsedResult obj = new ParsedResult();
-                obj = JsonSerializer.Deserialize<ParsedResult>(json);
+                obj = JsonSerializer.Deserialize<ParsedResult>(json,options);
 
                 if(obj.Accepted == null || obj.Packages == null || obj.Script == null || obj.Comments == null)
                 {
