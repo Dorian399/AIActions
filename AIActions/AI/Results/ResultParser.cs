@@ -12,14 +12,6 @@ namespace AIActions.AI.Results
 {
     internal class ResultParser
     {
-        public bool IsValid { get; private set; }
-        public bool Accepted { get; private set; }
-        public string[] Packages { get; private set; }
-        public string Script { get; private set; }
-        public string Comments { get; private set; }
-
-        private ResultParser() { }
-
         private static string PrepareJson(string json)
         {
             int start = json.IndexOf('{');
