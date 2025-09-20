@@ -50,7 +50,7 @@ namespace AIActions.AI.Results
                 ParsedResult obj = new ParsedResult();
                 obj = JsonSerializer.Deserialize<ParsedResult>(json,options);
 
-                if(obj.Accepted == null || obj.Packages == null || obj.Script == null || obj.Comments == null)
+                if(obj.Accepted == null || obj.Script == null || obj.Comments == null)
                 {
                     obj.IsValid = false;
                     return obj;

@@ -10,7 +10,7 @@ namespace AIActions.AI.Results
     {
         public bool IsValid { get; set; }
         public bool Accepted { get; set; }
-        public string[] Packages { get; set; }
+        public string[] Packages { get; set; } = Array.Empty<string>();
         public string Script { get; set; }
         public string Comments { get; set; }
         public ParsedResult() { }
