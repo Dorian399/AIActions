@@ -18,7 +18,7 @@ namespace AIActions.AI.Results
             int end = json.LastIndexOf('}');
 
             if (start == -1 || end == -1 || end < start)
-                return string.Empty;
+                return json;
 
             return json.Substring(start, end - start + 1);
         }
