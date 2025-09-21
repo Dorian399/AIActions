@@ -19,11 +19,12 @@ namespace AIActions.AI
         {
             Processing = -1,
             Error = 0,
-            Success = 1
+            Accepted = 1,
+            Rejected = 2,
         }
 
-        public delegate void StatusEventHandler(string value, int code, ResultParser? parsedResult=null);
-        public static event StatusEventHandler OnStatusChanged;
+        public delegate void StatusEventHandler(string value, int code, ResultParser? parsedResult=null, string? error=null);
+        public event StatusEventHandler OnStatusChanged;
         public AIRequester() { }
 
         public async Task SendPrompt(ParsedConfig config, string folderOrFile, string rawPrompt)
@@ -34,7 +35,7 @@ namespace AIActions.AI
                 return;
             }
 
-            if (rawPrompt==null)
+            if (string.IsNullOrWhiteSpace(rawPrompt))
             {
                 OnStatusChanged?.Invoke("Error: No prompt provided.", (int)StatusCode.Error);
                 return;
@@ -89,8 +90,7 @@ namespace AIActions.AI
             }
             catch (Exception e)
             {
-                Debug.WriteLine(e.ToString());
-                OnStatusChanged?.Invoke("Error: Failed to send the request: \n" + e.ToString(), (int)StatusCode.Error);
+                OnStatusChanged?.Invoke("Error: Failed to send the request.", (int)StatusCode.Error, error: e.ToString());
                 return;
             }
 
@@ -98,9 +98,22 @@ namespace AIActions.AI
 
             OnStatusChanged?.Invoke("Parsing results...", (int)StatusCode.Processing);
 
-            ParsedResult parsedResult = ResultParser.FromJson(result,config.ResponseJsonPath); 
+            ParsedResult parsedResult = ResultParser.FromJson(result,config.ResponseJsonPath);
 
-            Debug.WriteLine($"Parsed result: {parsedResult}");
+            if (!parsedResult.IsValid) {
+                OnStatusChanged?.Invoke("Error: Results failed to parse.", (int)StatusCode.Error, error: parsedResult.Comments);
+                return;
+            }
+
+            if (parsedResult.Accepted)
+            {
+                OnStatusChanged?.Invoke("Request accepted:\n" + parsedResult.Comments, (int)StatusCode.Accepted);
+            }
+            else
+            {
+                OnStatusChanged?.Invoke("Request rejected:\n" + parsedResult.Comments, (int)StatusCode.Rejected);
+            }
+            
 
         } 
     }
