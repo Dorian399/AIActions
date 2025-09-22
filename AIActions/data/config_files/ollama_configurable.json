@@ -1,0 +1,15 @@
+﻿{
+  "name": "Ollama Configurable",
+  "hidden": false,
+  "user_variables": [ "URL","MODEL" ],
+  "endpoint": "http://{{URL}}/api/generate",
+  "request_type": "POST",
+  "request_headers": {
+  },
+  "request_body": {
+    "model": "{{MODEL}}",
+    "stream": false,
+    "prompt":  "{{PROMPT}}"
+  },
+  "response_jsonpath": "$.response"
+}
