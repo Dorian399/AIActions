@@ -23,7 +23,7 @@ namespace AIActions.AI
             Rejected = 2,
         }
 
-        public delegate void StatusEventHandler(string value, int code, ResultParser? parsedResult=null, string? error=null);
+        public delegate void StatusEventHandler(string value, StatusCode code, ResultParser? parsedResult=null, string? error=null);
         public event StatusEventHandler OnStatusChanged;
         public AIRequester() { }
 
@@ -31,13 +31,13 @@ namespace AIActions.AI
         {
             if (!Path.Exists(folderOrFile))
             {
-                OnStatusChanged?.Invoke("Error: File or folder is missing or inacessible.", (int)StatusCode.Error);
+                OnStatusChanged?.Invoke("Error: File or folder is missing or inacessible.", StatusCode.Error);
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(rawPrompt))
             {
-                OnStatusChanged?.Invoke("Error: No prompt provided.", (int)StatusCode.Error);
+                OnStatusChanged?.Invoke("Error: No prompt provided.", StatusCode.Error);
                 return;
             }
 
@@ -70,7 +70,7 @@ namespace AIActions.AI
 
             // Send the request.
 
-            OnStatusChanged?.Invoke("Sending request...", (int)StatusCode.Processing);
+            OnStatusChanged?.Invoke("Sending request...", StatusCode.Processing);
 
             string result;
             try
@@ -90,28 +90,28 @@ namespace AIActions.AI
             }
             catch (Exception e)
             {
-                OnStatusChanged?.Invoke("Error: Failed to send the request.", (int)StatusCode.Error, error: e.ToString());
+                OnStatusChanged?.Invoke("Error: Failed to send the request.", StatusCode.Error, error: e.ToString());
                 return;
             }
 
             // Parse results
 
-            OnStatusChanged?.Invoke("Parsing results...", (int)StatusCode.Processing);
+            OnStatusChanged?.Invoke("Parsing results...", StatusCode.Processing);
 
             ParsedResult parsedResult = ResultParser.FromJson(result,config.ResponseJsonPath);
 
             if (!parsedResult.IsValid) {
-                OnStatusChanged?.Invoke("Error: Results failed to parse.", (int)StatusCode.Error, error: parsedResult.Comments);
+                OnStatusChanged?.Invoke("Error: Results failed to parse.", StatusCode.Error, error: parsedResult.Comments);
                 return;
             }
 
             if (parsedResult.Accepted)
             {
-                OnStatusChanged?.Invoke("Request accepted:\n" + parsedResult.Comments, (int)StatusCode.Accepted);
+                OnStatusChanged?.Invoke("Request accepted:\n" + parsedResult.Comments, StatusCode.Accepted);
             }
             else
             {
-                OnStatusChanged?.Invoke("Request rejected:\n" + parsedResult.Comments, (int)StatusCode.Rejected);
+                OnStatusChanged?.Invoke("Request rejected:\n" + parsedResult.Comments, StatusCode.Rejected);
             }
             
 
