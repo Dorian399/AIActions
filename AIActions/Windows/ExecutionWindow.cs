@@ -22,6 +22,7 @@ namespace AIActions
         private string _prompt;
         private ParsedConfig _configs;
         private string _folderOrFile;
+        private CancellationTokenSource _cancellationTokenSource;
         public ExecutionWindow(string prompt,ParsedConfig configs,string folderOrFile)
         {
             _prompt = prompt;
@@ -61,13 +62,22 @@ namespace AIActions
             {
                 CurPromptLabel.Text += _prompt;
             }
+            _cancellationTokenSource = new CancellationTokenSource();
+            CancellationToken token = _cancellationTokenSource.Token;
+
             AIRequester requester = new AIRequester();
             requester.OnStatusChanged += ExecutionWindow_StatusChanged;
-            await requester.SendPrompt(_configs,_folderOrFile, _prompt);
+            await requester.SendPrompt(_configs,_folderOrFile, _prompt, token);
+        }
+
+        private void ExecutionWindow_CancelClicked(object sender, EventArgs e)
+        {
+            Close();
         }
 
         private void ExecutionWindow_FormClosed(object sender, FormClosedEventArgs e)
         {
+            _cancellationTokenSource.Cancel();
             if (ParentWindow != null)
             {
                 if (SuccessfullyExecuted)

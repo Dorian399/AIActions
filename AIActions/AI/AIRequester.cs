@@ -27,7 +27,7 @@ namespace AIActions.AI
         public event StatusEventHandler OnStatusChanged;
         public AIRequester() { }
 
-        public async Task SendPrompt(ParsedConfig config, string folderOrFile, string rawPrompt)
+        public async Task SendPrompt(ParsedConfig config, string folderOrFile, string rawPrompt, CancellationToken token)
         {
             if (!Path.Exists(folderOrFile))
             {
@@ -84,7 +84,7 @@ namespace AIActions.AI
                     request.Headers.Add(kvp.Key, kvp.Value);
                 }
 
-                HttpResponseMessage response = await client.SendAsync(request);
+                HttpResponseMessage response = await client.SendAsync(request,token);
                 result = await response.Content.ReadAsStringAsync();
 
             }

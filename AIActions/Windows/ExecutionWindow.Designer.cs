@@ -92,6 +92,7 @@
             Cancel.TabIndex = 2;
             Cancel.Text = "Cancel";
             Cancel.UseVisualStyleBackColor = true;
+            Cancel.Click += ExecutionWindow_CancelClicked;
             // 
             // Confirm
             // 
