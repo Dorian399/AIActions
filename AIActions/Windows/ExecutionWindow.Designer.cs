@@ -30,8 +30,9 @@
         {
             TabsWindow = new TabControl();
             tabPage1 = new TabPage();
+            ShowCodeButton = new TextPreviewButton();
             Cancel = new Button();
-            Confirm = new Button();
+            Confirm = new TextPreviewButton();
             InfoLabel = new Label();
             tabPage2 = new TabPage();
             STDOut = new RichTextBox();
@@ -49,32 +50,43 @@
             TabsWindow.Controls.Add(tabPage1);
             TabsWindow.Controls.Add(tabPage2);
             TabsWindow.Dock = DockStyle.Fill;
-            TabsWindow.ItemSize = new Size(10, 20);
-            TabsWindow.Location = new Point(0, 22);
+            TabsWindow.ItemSize = new Size(0, 1);
+            TabsWindow.Location = new Point(0, 27);
             TabsWindow.Margin = new Padding(0);
             TabsWindow.Name = "TabsWindow";
             TabsWindow.Padding = new Point(0, 0);
             TabsWindow.SelectedIndex = 0;
-            TabsWindow.Size = new Size(800, 129);
+            TabsWindow.Size = new Size(800, 164);
             TabsWindow.SizeMode = TabSizeMode.Fixed;
             TabsWindow.TabIndex = 0;
             // 
             // tabPage1
             // 
+            tabPage1.Controls.Add(ShowCodeButton);
             tabPage1.Controls.Add(Cancel);
             tabPage1.Controls.Add(Confirm);
             tabPage1.Controls.Add(InfoLabel);
-            tabPage1.Location = new Point(4, 24);
+            tabPage1.Location = new Point(4, 5);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(792, 101);
+            tabPage1.Size = new Size(792, 155);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "tabPage1";
             tabPage1.UseVisualStyleBackColor = true;
             // 
+            // ShowCodeButton
+            // 
+            ShowCodeButton.Enabled = false;
+            ShowCodeButton.Location = new Point(605, 127);
+            ShowCodeButton.Name = "ShowCodeButton";
+            ShowCodeButton.Size = new Size(103, 28);
+            ShowCodeButton.TabIndex = 3;
+            ShowCodeButton.Text = "Show code";
+            ShowCodeButton.UseVisualStyleBackColor = true;
+            // 
             // Cancel
             // 
-            Cancel.Location = new Point(630, 90);
+            Cancel.Location = new Point(521, 127);
             Cancel.Name = "Cancel";
             Cancel.Size = new Size(78, 28);
             Cancel.TabIndex = 2;
@@ -83,7 +95,8 @@
             // 
             // Confirm
             // 
-            Confirm.Location = new Point(714, 90);
+            Confirm.Enabled = false;
+            Confirm.Location = new Point(714, 127);
             Confirm.Name = "Confirm";
             Confirm.Size = new Size(78, 28);
             Confirm.TabIndex = 1;
@@ -96,18 +109,18 @@
             InfoLabel.Font = new Font("Segoe UI", 13F);
             InfoLabel.Location = new Point(3, 3);
             InfoLabel.Name = "InfoLabel";
-            InfoLabel.Size = new Size(786, 95);
+            InfoLabel.Size = new Size(786, 149);
             InfoLabel.TabIndex = 0;
-            InfoLabel.Text = "Sending request...";
+            InfoLabel.Text = "Creating prompt...";
             InfoLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // tabPage2
             // 
             tabPage2.Controls.Add(STDOut);
-            tabPage2.Location = new Point(4, 24);
+            tabPage2.Location = new Point(4, 5);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(792, 101);
+            tabPage2.Size = new Size(792, 120);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "tabPage2";
             tabPage2.UseVisualStyleBackColor = true;
@@ -119,7 +132,7 @@
             STDOut.Location = new Point(3, 3);
             STDOut.Name = "STDOut";
             STDOut.ReadOnly = true;
-            STDOut.Size = new Size(786, 95);
+            STDOut.Size = new Size(786, 114);
             STDOut.TabIndex = 0;
             STDOut.Text = "";
             // 
@@ -136,7 +149,7 @@
             tableLayoutPanel1.RowCount = 2;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 14.5695362F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 85.4304657F));
-            tableLayoutPanel1.Size = new Size(800, 151);
+            tableLayoutPanel1.Size = new Size(800, 191);
             tableLayoutPanel1.TabIndex = 1;
             // 
             // CurPromptLabel
@@ -146,7 +159,7 @@
             CurPromptLabel.Font = new Font("Segoe UI", 9F);
             CurPromptLabel.Location = new Point(3, 0);
             CurPromptLabel.Name = "CurPromptLabel";
-            CurPromptLabel.Size = new Size(794, 22);
+            CurPromptLabel.Size = new Size(794, 27);
             CurPromptLabel.TabIndex = 1;
             CurPromptLabel.Text = "Current prompt: ";
             // 
@@ -154,11 +167,13 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 151);
+            ClientSize = new Size(800, 191);
             Controls.Add(tableLayoutPanel1);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Name = "ExecutionWindow";
             Text = "Executing...";
+            FormClosed += ExecutionWindow_FormClosed;
+            Load += ExecutionWindow_Load;
             TabsWindow.ResumeLayout(false);
             tabPage1.ResumeLayout(false);
             tabPage2.ResumeLayout(false);
@@ -174,9 +189,10 @@
         private Label InfoLabel;
         private TabPage tabPage2;
         private Button Cancel;
-        private Button Confirm;
+        private TextPreviewButton Confirm;
         private TableLayoutPanel tableLayoutPanel1;
         private Label CurPromptLabel;
         private RichTextBox STDOut;
+        private TextPreviewButton ShowCodeButton;
     }
 }
