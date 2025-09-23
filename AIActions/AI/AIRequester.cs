@@ -107,7 +107,7 @@ namespace AIActions.AI
 
             if (parsedResult.Accepted)
             {
-                OnStatusChanged?.Invoke("Request accepted:\n" + parsedResult.Comments, StatusCode.Accepted);
+                OnStatusChanged?.Invoke("Request accepted:\n" + parsedResult.Comments, StatusCode.Accepted,parsedResult);
             }
             else
             {
