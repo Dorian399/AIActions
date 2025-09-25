@@ -82,5 +82,13 @@ namespace AIActions.ExternalData
                 return Path.Combine(PythonFolder,"Scripts","pip.exe");
             }
         }
+
+        public static string PythonScriptsFolder
+        {
+            get
+            {
+                return Path.Combine(Paths.ExternalDataFolder, "scripts_history");
+            }
+        }
     }
 }
