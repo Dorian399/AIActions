@@ -1,6 +1,8 @@
 ﻿using AIActions.AI;
 using AIActions.AI.Results;
 using AIActions.Configs;
+using AIActions.ExternalData;
+using AIActions.Python;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -22,6 +24,7 @@ namespace AIActions
         private string _prompt;
         private ParsedConfig _configs;
         private string _folderOrFile;
+        private ParsedResult _result;
         private CancellationTokenSource _cancellationTokenSource;
         public ExecutionWindow(string prompt,ParsedConfig configs,string folderOrFile)
         {
@@ -49,6 +52,7 @@ namespace AIActions
 
             if (code == StatusCode.Accepted && !String.IsNullOrWhiteSpace(parsedResult.Script))
             {
+                _result = parsedResult;
                 ShowCodeButton.SetPreviewText(parsedResult.Script, title: "Code preview");
                 ShowCodeButton.Enabled = true;
                 Confirm.Enabled = true;
@@ -68,6 +72,34 @@ namespace AIActions
             AIRequester requester = new AIRequester();
             requester.OnStatusChanged += ExecutionWindow_StatusChanged;
             await requester.SendPrompt(_configs,_folderOrFile, _prompt, token);
+        }
+
+        private async void ExecutionWindow_ConfirmClicked(object sender, EventArgs e)
+        {
+            TabsWindow.SelectedIndex = 1;
+            CancellationToken token = _cancellationTokenSource.Token;
+
+            string workingDirectory = Path.GetFullPath(_folderOrFile);
+
+            ResultExec executor = new ResultExec();
+            executor.OnOutput = text =>
+            {
+                if (STDOut != null)
+                {
+                    STDOut.AppendText(text+"\n");
+                    STDOut.SelectionStart = STDOut.Text.Length;
+                    STDOut.ScrollToCaret();
+                }
+            };
+            
+            await executor.ExecuteResults(
+                _result,
+                _prompt,
+                workingDirectory,
+                uiControl: this,
+                token   
+            );
+
         }
 
         private void ExecutionWindow_CancelClicked(object sender, EventArgs e)

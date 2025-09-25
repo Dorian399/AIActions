@@ -103,6 +103,7 @@
             Confirm.TabIndex = 1;
             Confirm.Text = "Confirm";
             Confirm.UseVisualStyleBackColor = true;
+            Confirm.Click += ExecutionWindow_ConfirmClicked;
             // 
             // InfoLabel
             // 
@@ -121,7 +122,7 @@
             tabPage2.Location = new Point(4, 5);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(792, 120);
+            tabPage2.Size = new Size(792, 155);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "tabPage2";
             tabPage2.UseVisualStyleBackColor = true;
@@ -133,7 +134,7 @@
             STDOut.Location = new Point(3, 3);
             STDOut.Name = "STDOut";
             STDOut.ReadOnly = true;
-            STDOut.Size = new Size(786, 114);
+            STDOut.Size = new Size(786, 149);
             STDOut.TabIndex = 0;
             STDOut.Text = "";
             // 
@@ -172,6 +173,7 @@
             Controls.Add(tableLayoutPanel1);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Name = "ExecutionWindow";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Executing...";
             FormClosed += ExecutionWindow_FormClosed;
             Load += ExecutionWindow_Load;
