@@ -18,7 +18,8 @@ Rules:
 - The `"script"` must contain valid Python code.
 - Remember to use correct indentation in the code. 
 - Do not use spaces for indentations.
-- Use the **Current folder** value instead of os.getcwd() in the Python code.
+- Make sure to not add any excess indentations that could cause the script to not work.
+- os.getcwd() will always return the current folder, so prioritize it over using absolute paths.
 - Print out info about the progress as much as possible.
 - The script must NEVER delete files.  
   - Instead, simulate deletion by moving files into a hidden folder named `.deleted` inside the **Current Folder**.
