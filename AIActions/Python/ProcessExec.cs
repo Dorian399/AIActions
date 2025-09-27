@@ -43,7 +43,15 @@ namespace AIActions.Python
             process.BeginOutputReadLine();
             process.BeginErrorReadLine();
 
-            await process.WaitForExitAsync(token);
+            try
+            {
+                await process.WaitForExitAsync(token);
+            }
+            catch (OperationCanceledException e) { 
+                if(!process.HasExited)
+                    process.Kill(entireProcessTree: true);
+                throw;
+            }
             return process.ExitCode;
         }
     }
