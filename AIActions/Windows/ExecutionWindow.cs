@@ -34,13 +34,40 @@ namespace AIActions
             InitializeComponent();
         }
 
-        private void ExecutionWindow_StatusChanged(string value, StatusCode code, ParsedResult? parsedResult, string? error)
+        private async Task startFakeProgress()
+        {
+            while(progressBar1.Value < 90)
+            {
+                progressBar1.Step = 1;
+                progressBar1.PerformStep();
+                await Task.Delay(510);
+            }
+        }
+
+        private async Task ExecutionWindow_StatusChanged(string value, StatusCode code, ParsedResult? parsedResult, string? error)
         {
             InfoLabel.Text = value;
             if (value.Length > 140)
                 InfoLabel.TextAlign = ContentAlignment.TopCenter;
             else
                 InfoLabel.TextAlign = ContentAlignment.MiddleCenter;
+
+            if (code != StatusCode.Processing)
+            {
+                progressBar1.Value = 100;
+            }
+            else
+            {
+                // Move progress bar
+                progressBar1.Step = 10;
+                progressBar1.PerformStep();
+            }
+
+            if (value == "Sending request...")
+            {
+                await startFakeProgress();
+                return;
+            }
 
             if(code == StatusCode.Error && !String.IsNullOrWhiteSpace(error))
             {
@@ -76,29 +103,59 @@ namespace AIActions
 
         private async void ExecutionWindow_ConfirmClicked(object sender, EventArgs e)
         {
+            // Switch pages.
             TabsWindow.SelectedIndex = 1;
+
+            // Remove the bottom layout (progress bar and buttons).
+            TableLayoutRowStyleCollection rows = tableLayoutPanel1.RowStyles;
+            int lastRowIndex = tableLayoutPanel1.RowStyles.Count - 1;
+            foreach (RowStyle row in rows)
+            {
+                if (rows.IndexOf(row) == lastRowIndex)
+                    row.Height = 0;
+            }
+            
+            // Create and execute the script.
             CancellationToken token = _cancellationTokenSource.Token;
 
             string workingDirectory = Path.GetFullPath(_folderOrFile);
 
             ResultExec executor = new ResultExec();
+
+            const int maxLines = 10000;
             executor.OnOutput = text =>
             {
-                if (STDOut != null)
+                if (STDOut.Lines.Length > maxLines)
                 {
-                    STDOut.AppendText(text+"\n");
-                    STDOut.SelectionStart = STDOut.Text.Length;
-                    STDOut.ScrollToCaret();
+                    STDOut.SelectionStart = 0;
+                    STDOut.SelectionLength = STDOut.GetFirstCharIndexFromLine(STDOut.Lines.Length - maxLines);
+                    STDOut.ReadOnly = false;
+                    STDOut.SelectedText = "";
+                    STDOut.ReadOnly = true;
                 }
+                STDOut.AppendText(text + "\n");
             };
-            
-            await executor.ExecuteResults(
-                _result,
-                _prompt,
-                workingDirectory,
-                uiControl: this,
-                token   
-            );
+
+            bool exitBool=false;
+
+            try
+            {
+                exitBool = await executor.ExecuteResults(
+                    _result,
+                    _prompt,
+                    workingDirectory,
+                    uiControl: this,
+                    token
+                );
+            }
+            catch (Exception ex) { 
+                Debug.Write(ex.ToString() );
+            }
+
+            if (exitBool)
+            {
+                SuccessfullyExecuted = true;
+            }
 
         }
 
