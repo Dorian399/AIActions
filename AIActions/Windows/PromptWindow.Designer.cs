@@ -75,7 +75,7 @@
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Name = "PromptWindow";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "AI Action";
+            Text = "AI Actions";
             Load += PromptWindow_Load;
             ResumeLayout(false);
         }
