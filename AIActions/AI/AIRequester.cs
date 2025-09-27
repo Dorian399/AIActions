@@ -23,7 +23,7 @@ namespace AIActions.AI
             Rejected = 2,
         }
 
-        public delegate void StatusEventHandler(string value, StatusCode code, ParsedResult? parsedResult=null, string? error=null);
+        public delegate Task StatusEventHandler(string value, StatusCode code, ParsedResult? parsedResult=null, string? error=null);
         public event StatusEventHandler OnStatusChanged;
         public AIRequester() { }
 
