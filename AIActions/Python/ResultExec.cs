@@ -13,7 +13,7 @@ namespace AIActions.Python
     {
         public Action<string>? OnOutput;
 
-        public async Task ExecuteResults(
+        public async Task<bool> ExecuteResults(
             ParsedResult results,
             string? prompt,
             string workingDirectory,
@@ -94,14 +94,14 @@ namespace AIActions.Python
 
             ScriptExec python = new ScriptExec();
             python.OnOutput = text => OnOutput?.Invoke(text);
-            await python.RunScript(
+            bool exitBool = await python.RunScript(
                 scriptPath,
                 workingDirectory,
                 uiControl,
                 token
             );
 
-                
+            return exitBool;   
         }
     }
 }
