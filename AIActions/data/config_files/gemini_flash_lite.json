@@ -1,0 +1,8 @@
+{
+	"name": "Gemini 2.5 Flash Lite",
+	"base": "gemini_base.json",
+	"hidden": false,
+	"json_variables": {
+		"MODEL": "gemini-2.5-flash-lite"
+	}
+}
