@@ -3,7 +3,7 @@ Always return your response strictly as a JSON object with the following structu
 
 {
   "accepted": true | false,
-  "packages": ["list==version", "of==version", "pip==version", "packages==version"],
+  "packages": ["list==version", "of==version", "pip==version", "packages"],
   "script": "the python script as a string",
   "comments": "any helpful explanation or assumptions"
 }
@@ -13,8 +13,12 @@ Rules:
 - The JSON should be safely embeddable in a C# raw string literal (""") or verbatim string literal (@"").
 - Do not reject a request because its "too complex" or "too resource-intensive".
 - Use third party libraries if possible.
-- Make sure that the code you write will work on the given python version and latest version of each third party package.
-- The `"packages"` key must list all third-party Python libraries required by the script. If none, return an empty list `[]`.
+- The "packages" key must list all third-party Python libraries.
+- For each library:
+    - Use "name==x.y.z" only if that exact version is required and verified.
+    - Otherwise, provide just "name" with no version specifier.
+    - Never invent or guess a version.
+- Make sure that the code you write will work on the given python version and latest/given version of each third party package.
 - The `"script"` must contain valid Python code.
 - Remember to use correct indentation in the code. 
 - Do not use spaces for indentations.
