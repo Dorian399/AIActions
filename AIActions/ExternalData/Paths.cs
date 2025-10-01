@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace AIActions.ExternalData
 {
@@ -16,6 +17,15 @@ namespace AIActions.ExternalData
             }
         }
 
+        // Userdata folder.
+        public static string UserDataFolder
+        {
+            get
+            {
+                return Path.Combine(AppContext.BaseDirectory, "user_data");
+            }
+        }
+
         // Configs related.
         public static string ConfigFilesFolder
         {
@@ -25,11 +35,45 @@ namespace AIActions.ExternalData
             }
         }
 
-        public static string[] ConfigFiles
+        public static string UserConfigFilesFolder
         {
             get
             {
-                return (string[])Directory.GetFiles(ConfigFilesFolder);
+                return Path.Combine(UserDataFolder, "config_files");
+            }
+        }
+
+        public static SortedDictionary<string,string> ConfigFiles
+        {
+            get
+            {
+                // User configs can override regular configs.
+                // Example: (user_data/config_files/config.json) will have priority over (data/config_files/config.json).
+                SortedDictionary<string, string> configs = new SortedDictionary<string, string>();
+                // User configs
+                foreach(string file in Directory.GetFiles(Paths.ConfigFilesFolder))
+                {
+                    string ext = Path.GetExtension(file);
+                    string filename = Path.GetFileName(file);
+
+                    if (ext.ToLower() != ".json")
+                        continue;
+
+                    configs[filename] = file;
+                }
+
+                foreach (string file in Directory.GetFiles(Paths.ConfigFilesFolder))
+                {
+                    string ext = Path.GetExtension(file);
+                    string filename = Path.GetFileName(file);
+
+                    if (ext.ToLower() != ".json")
+                        continue;
+
+                    configs[filename] = file;
+                }
+
+                return configs;
             }
         }
 
