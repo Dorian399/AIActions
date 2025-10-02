@@ -26,6 +26,16 @@ namespace AIActions.ExternalData
             }
         }
 
+        // App settings related
+
+        public static string AppSettingsFile
+        {
+            get
+            {
+                return Path.Combine(UserDataFolder,"app_settings.json");
+            }
+        }
+
         // Configs related.
         public static string ConfigFilesFolder
         {
@@ -54,7 +64,7 @@ namespace AIActions.ExternalData
                 foreach(string file in Directory.GetFiles(Paths.ConfigFilesFolder))
                 {
                     string ext = Path.GetExtension(file);
-                    string filename = Path.GetFileName(file);
+                    string filename = Path.GetFileNameWithoutExtension(file);
 
                     if (ext.ToLower() != ".json")
                         continue;
@@ -65,7 +75,7 @@ namespace AIActions.ExternalData
                 foreach (string file in Directory.GetFiles(Paths.ConfigFilesFolder))
                 {
                     string ext = Path.GetExtension(file);
-                    string filename = Path.GetFileName(file);
+                    string filename = Path.GetFileNameWithoutExtension(file);
 
                     if (ext.ToLower() != ".json")
                         continue;
