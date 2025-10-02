@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AIActions.UserData;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -202,7 +203,16 @@ namespace AIActions.Configs
             {
                 foreach (string key in parsedUserVars)
                 {
-                    string keyval = key.Replace("{{", "").Replace("}}", ""); // To do, actually get var from user settings.
+                    string userVar="";
+                    try
+                    {
+                        string currentConfig = AppSettings.GetCurrentConfig();
+                        userVar = AppSettings.GetConfigVariable(currentConfig,key);
+                    }catch(Exception ex)
+                    {
+                        MessageBox.Show("Failed to load user variable ("+key+")");
+                    }
+                    string keyval = userVar;
                     jsonAllVariables[key] = keyval;
                 }
             }
