@@ -1,6 +1,7 @@
 using AIActions.AI;
 using AIActions.Configs;
 using AIActions.ExternalData;
+using AIActions.UserData;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
@@ -35,13 +36,26 @@ namespace AIActions
                 workFolder = args[0];
             }
 
-            string configName = "gemini_flash.json"; // TO DO, Use persistent user settings.
-            string configFullPath = Path.Combine(Paths.ConfigFilesFolder, configName);
-
             ConfigLoader loader = new ConfigLoader();
-            ParsedConfig parsedConfig = await loader.LoadFromFile(configFullPath);
+            ParsedConfig parsedConfig;
+            string currentConfigName = AppSettings.GetCurrentConfig();
+            string? configFullPath=null;
+            SortedDictionary<string,string> configFiles = Paths.ConfigFiles;
+            if (configFiles.ContainsKey(currentConfigName))
+            {
+                configFullPath = configFiles[currentConfigName];
+            }
 
-            ApplicationConfiguration.Initialize();
+            if (configFullPath != null)
+            {
+                parsedConfig = await loader.LoadFromFile(configFullPath);
+            }
+            else
+            {
+                return;
+            }
+
+                ApplicationConfiguration.Initialize();
 
             PromptWindow window = new PromptWindow(workFolder, parsedConfig);
             window.ShouldHide = true;
