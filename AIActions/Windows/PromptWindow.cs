@@ -1,4 +1,5 @@
 using AIActions.Configs;
+using AIActions.Windows;
 using System.Diagnostics;
 
 namespace AIActions
@@ -76,7 +77,8 @@ namespace AIActions
 
         private void Settings_Click(object sender, EventArgs e)
         {
-
+            ConfigsListWindow settingsWindow = new ConfigsListWindow();
+            settingsWindow.Show();
         }
 
         private void PromptBox_EnterPressed(object sender, EventArgs e)
