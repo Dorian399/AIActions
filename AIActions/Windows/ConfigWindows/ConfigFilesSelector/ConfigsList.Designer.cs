@@ -33,8 +33,10 @@
             ConfigComboBox = new ComboBox();
             LoadedConfigsLabel = new Label();
             VariablesPanel = new Panel();
+            HelpLabel = new Label();
             MainLayout.SuspendLayout();
             HeaderLayout.SuspendLayout();
+            VariablesPanel.SuspendLayout();
             SuspendLayout();
             // 
             // MainLayout
@@ -81,6 +83,7 @@
             ConfigComboBox.Name = "ConfigComboBox";
             ConfigComboBox.Size = new Size(368, 28);
             ConfigComboBox.TabIndex = 0;
+            ConfigComboBox.SelectedIndexChanged += ComboBox_IndexChanged;
             // 
             // LoadedConfigsLabel
             // 
@@ -97,12 +100,24 @@
             // VariablesPanel
             // 
             VariablesPanel.AutoScroll = true;
+            VariablesPanel.Controls.Add(HelpLabel);
             VariablesPanel.Dock = DockStyle.Fill;
             VariablesPanel.Location = new Point(3, 63);
             VariablesPanel.Name = "VariablesPanel";
             VariablesPanel.Padding = new Padding(5);
             VariablesPanel.Size = new Size(549, 235);
             VariablesPanel.TabIndex = 2;
+            // 
+            // HelpLabel
+            // 
+            HelpLabel.Dock = DockStyle.Top;
+            HelpLabel.Font = new Font("Segoe UI", 10F);
+            HelpLabel.Location = new Point(5, 5);
+            HelpLabel.Name = "HelpLabel";
+            HelpLabel.Size = new Size(539, 33);
+            HelpLabel.TabIndex = 0;
+            HelpLabel.Text = "Choose a config from the list above.";
+            HelpLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // ConfigsList
             // 
@@ -115,6 +130,7 @@
             MainLayout.ResumeLayout(false);
             HeaderLayout.ResumeLayout(false);
             HeaderLayout.PerformLayout();
+            VariablesPanel.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -125,5 +141,6 @@
         private ComboBox ConfigComboBox;
         private Label LoadedConfigsLabel;
         private Panel VariablesPanel;
+        private Label HelpLabel;
     }
 }
