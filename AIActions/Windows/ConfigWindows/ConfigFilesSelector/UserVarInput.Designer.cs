@@ -34,7 +34,7 @@
             varLayout.SuspendLayout();
             SuspendLayout();
             // 
-            // VarLayout
+            // varLayout
             // 
             varLayout.ColumnCount = 2;
             varLayout.ColumnStyles.Add(new ColumnStyle());
@@ -44,32 +44,32 @@
             varLayout.Dock = DockStyle.Fill;
             varLayout.Location = new Point(0, 0);
             varLayout.Margin = new Padding(0);
-            varLayout.Name = "VarLayout";
+            varLayout.Name = "varLayout";
             varLayout.RowCount = 1;
             varLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             varLayout.Size = new Size(196, 35);
             varLayout.TabIndex = 0;
+            varLayout.SizeChanged += LayoutResized;
             // 
-            // VarName
+            // varName
             // 
             varName.AutoSize = true;
             varName.Dock = DockStyle.Fill;
             varName.Font = new Font("Segoe UI", 10F);
             varName.Location = new Point(3, 0);
-            varName.Name = "VarName";
+            varName.Name = "varName";
             varName.Size = new Size(100, 35);
             varName.TabIndex = 0;
             varName.Text = "VAR_NAME:";
             varName.TextAlign = ContentAlignment.MiddleRight;
             // 
-            // VarInput
+            // varInput
             // 
             varInput.Anchor = AnchorStyles.Left;
             varInput.Location = new Point(109, 4);
-            varInput.Name = "VarInput";
+            varInput.Name = "varInput";
             varInput.Size = new Size(78, 27);
             varInput.TabIndex = 1;
-            varInput.TextChanged += VarInput_TextChanged;
             // 
             // UserVarInput
             // 
@@ -78,7 +78,6 @@
             Controls.Add(varLayout);
             Name = "UserVarInput";
             Size = new Size(196, 35);
-            varLayout.SizeChanged += LayoutResized;
             varLayout.ResumeLayout(false);
             varLayout.PerformLayout();
             ResumeLayout(false);
