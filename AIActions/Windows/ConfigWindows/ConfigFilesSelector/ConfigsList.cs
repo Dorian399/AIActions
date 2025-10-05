@@ -19,12 +19,15 @@ namespace AIActions.Windows.ConfigWindows
     {
         private Dictionary<string, ParsedConfig> _configsCache = new Dictionary<string, ParsedConfig>();
         private Dictionary<int, ParsedConfig> _loadedConfigs = new Dictionary<int, ParsedConfig>();
+
+        public Action? OnConfigChosen { get; set; }
+
         public ConfigsList()
         {
             InitializeComponent();
         }
 
-        private async void ComboBox_IndexChanged(object sender, EventArgs e)
+        private void ComboBox_IndexChanged(object sender, EventArgs e)
         {
             VariablesPanel.Controls.Clear();
 
@@ -47,6 +50,7 @@ namespace AIActions.Windows.ConfigWindows
             }
 
             AppSettings.SetCurrentConfig(selectedConfig.Codename);
+            OnConfigChosen?.Invoke();
 
             foreach (string var in selectedConfig.UserVariables)
             {

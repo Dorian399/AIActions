@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace AIActions.Windows.ConfigWindows.ConfigFilesSelector
 {
@@ -28,7 +29,15 @@ namespace AIActions.Windows.ConfigWindows.ConfigFilesSelector
             _configCodename = configCodename;
             varName.Text = (string.IsNullOrWhiteSpace(_variableName) ? "Invalid variable name" : _variableName) + ":";
 
-            string savedVarText = AppSettings.GetConfigVariable(_configCodename, variableName);
+            string savedVarText="";
+            try
+            {
+                savedVarText = AppSettings.GetConfigVariable(_configCodename, variableName);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Failed to load variable: " + variableName + ", for config: " + _configCodename + "\nIf the issue persists remove your ./user_data/app_settings.json file or check it's permissions. \nExact exception: \n" + ex.Message);
+            }
 
             if (!string.IsNullOrWhiteSpace(savedVarText)) {
                 varInput.Text = savedVarText;
@@ -54,14 +63,25 @@ namespace AIActions.Windows.ConfigWindows.ConfigFilesSelector
 
             int inputWidth = Math.Clamp(textSize.Width + 5, min, max);
 
-
             varInput.Width = inputWidth;
+            // Fix for text clipping out of bounds.
+            int caretPos = varInput.SelectionStart;
+            varInput.Select(0, 0);
+            varInput.SelectionStart = caretPos;
+            varInput.ScrollToCaret();
         }
 
         private void VarInput_TextChanged(object sender, EventArgs e)
         {
             VarInput_AdjustWidth();
-            AppSettings.SetConfigVariable(_configCodename, _variableName, varInput.Text);
+            try
+            {
+                AppSettings.SetConfigVariable(_configCodename, _variableName, varInput.Text);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Failed to save variable: " + _variableName + ", for config: " + _configCodename + "\nIf the issue persists remove your ./user_data/app_settings.json file or check it's permissions. \nExact exception: \n"+ex.Message);
+            }
         }
     }
 }
