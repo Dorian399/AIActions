@@ -2,6 +2,7 @@ using AIActions.AI;
 using AIActions.Configs;
 using AIActions.ExternalData;
 using AIActions.UserData;
+using AIActions.Windows;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
@@ -9,6 +10,7 @@ namespace AIActions
 {
     internal static class Program
     {
+        public static PromptWindow MainWindow;
         /// <summary>
         ///  The main entry point for the application.
         /// </summary>
@@ -37,30 +39,14 @@ namespace AIActions
             }
 
             ConfigLoader loader = new ConfigLoader();
-            ParsedConfig parsedConfig;
-            string currentConfigName = AppSettings.GetCurrentConfig();
-            string? configFullPath=null;
-            SortedDictionary<string,string> configFiles = Paths.ConfigFiles;
-            if (configFiles.ContainsKey(currentConfigName))
-            {
-                configFullPath = configFiles[currentConfigName];
-            }
+            ParsedConfig? parsedConfig = await loader.LoadFromAppSettings();
 
-            if (configFullPath != null)
-            {
-                parsedConfig = await loader.LoadFromFile(configFullPath);
-            }
-            else
-            {
-                return;
-            }
+            ApplicationConfiguration.Initialize();
 
-                ApplicationConfiguration.Initialize();
+            // The window will auto redirect to config selection if  something is wrong.
+            MainWindow = new PromptWindow(workFolder, parsedConfig);
 
-            PromptWindow window = new PromptWindow(workFolder, parsedConfig);
-            window.ShouldHide = true;
-
-            Application.Run(window);
+            Application.Run(MainWindow);
         }
     }
 }
