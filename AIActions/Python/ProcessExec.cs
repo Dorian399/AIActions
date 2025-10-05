@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace AIActions.Python
 {
@@ -12,7 +15,22 @@ namespace AIActions.Python
         public Action<string>? OnOutput { get; set; }
         public Control? UiControl { get; set; }
 
+        private const int QUEUE_MAX_SIZE = 100;
+        private const int OUTPUT_INTERVAL = 10;
+
         public ProcessExec() { }
+
+        private void SendOutput(ref ConcurrentQueue<string> queue)
+        {
+            StringBuilder sb = new StringBuilder();
+            while (queue.TryDequeue(out string? data))
+            {
+                sb.AppendLine(data);
+            }
+            string fullData = sb.ToString();
+            if (UiControl != null && UiControl.IsHandleCreated && !string.IsNullOrWhiteSpace(fullData))
+                UiControl?.BeginInvoke(new Action(() => OnOutput?.Invoke(fullData)));
+        }
 
         public async Task<int> StartAsync(string executable, string arguments, CancellationToken token = default, string workingDirectory = "")
         {
@@ -26,16 +44,29 @@ namespace AIActions.Python
             process.StartInfo.RedirectStandardOutput = true;
             process.StartInfo.RedirectStandardError = true;
 
+            // Throttle the output to 1000 lines/calls per seconds, to prevent UI freezes.
+            ConcurrentQueue<string> OutputQueue = new ConcurrentQueue<string>();
+
+            System.Timers.Timer OutputThrottler = new System.Timers.Timer(OUTPUT_INTERVAL);
+            OutputThrottler.AutoReset = true;
+            OutputThrottler.Start();
+            OutputThrottler.Elapsed += (source, e) =>
+            {
+                SendOutput(ref OutputQueue);
+            };
+
             process.OutputDataReceived += (s, e) => {
                 if (!string.IsNullOrEmpty(e.Data))
                 {
-                    UiControl?.BeginInvoke(new Action(() => OnOutput?.Invoke(e.Data)));
+                    if(OutputQueue.Count <= QUEUE_MAX_SIZE)
+                        OutputQueue.Enqueue(e.Data);
                 }
             };
             process.ErrorDataReceived += (s, e) => {
                 if (!string.IsNullOrEmpty(e.Data))
                 {
-                    UiControl?.BeginInvoke(new Action(() => OnOutput?.Invoke(e.Data)));
+                    if (OutputQueue.Count <= QUEUE_MAX_SIZE)
+                        OutputQueue.Enqueue(e.Data);
                 }
             };
 
@@ -52,6 +83,9 @@ namespace AIActions.Python
                     process.Kill(entireProcessTree: true);
                 throw;
             }
+            OutputThrottler.Stop();
+            // Send the rest of the output.
+            SendOutput(ref OutputQueue);
             return process.ExitCode;
         }
     }
