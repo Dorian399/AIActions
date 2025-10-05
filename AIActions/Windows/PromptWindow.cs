@@ -6,7 +6,6 @@ namespace AIActions
 {
     public partial class PromptWindow : Form
     {
-        public bool ShouldHide = false;
 
         private string _currentFolderOrFile;
         private ParsedConfig _currentConfig;
@@ -33,33 +32,45 @@ namespace AIActions
             this.Show();
         }
 
-        private int PromptWindow_CheckData()
+        private bool CheckData()
         {
-            int code = 0;
             if (!Path.Exists(_currentFolderOrFile))
             {
                 MessageBox.Show("Missing file or folder. Make sure to run this program from the context menu (Right click).");
                 this.Close();
-                code+=2;
+                return false;
             }
             if (_currentConfig == null)
             {
-                // Redirect to config chooser.
-                code+=4;
+                ConfigsListWindow configsListWindow = new ConfigsListWindow();
+                configsListWindow.Show();
+                return false;
             }
-            return code;
+            return true;
         }
 
-        private void PromptWindow_UpdateData(string? folderOrFile, ParsedConfig? configFile)
+        public void UpdateData(string? folderOrFile=null, ParsedConfig? configFile=null, bool shouldPopUp=false)
         {
-            _currentFolderOrFile = folderOrFile;
-            _currentConfig = configFile;
+            if(folderOrFile != null)
+                _currentFolderOrFile = folderOrFile;
+            if(configFile!=null)
+                _currentConfig = configFile;
+
+            if (CheckData())
+            {
+                this.Text += " " + _currentFolderOrFile;
+                if(shouldPopUp)
+                    this.MakePopup();
+            }
+            else
+            {
+                this.Close();
+            }
         }
 
         private void PromptWindow_Load(object sender, EventArgs e)
         {
-            int errorCode = PromptWindow_CheckData();
-            if(errorCode == 0)
+            if(CheckData())
             {
                 this.Text += " "+_currentFolderOrFile; 
                 this.MakePopup();
@@ -77,8 +88,7 @@ namespace AIActions
 
         private void Settings_Click(object sender, EventArgs e)
         {
-            ConfigsListWindow settingsWindow = new ConfigsListWindow();
-            settingsWindow.Show();
+            // TO DO: Launch actual settings window.
         }
 
         private void PromptBox_EnterPressed(object sender, EventArgs e)

@@ -73,6 +73,7 @@
             Controls.Add(RunAction);
             Controls.Add(PromptBox);
             FormBorderStyle = FormBorderStyle.FixedSingle;
+            MaximizeBox = false;
             Name = "PromptWindow";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "AI Actions";
