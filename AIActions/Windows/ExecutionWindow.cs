@@ -125,15 +125,7 @@ namespace AIActions
             const int maxLines = 10000;
             executor.OnOutput = text =>
             {
-                if (STDOut.Lines.Length > maxLines)
-                {
-                    STDOut.SelectionStart = 0;
-                    STDOut.SelectionLength = STDOut.GetFirstCharIndexFromLine(STDOut.Lines.Length - maxLines);
-                    STDOut.ReadOnly = false;
-                    STDOut.SelectedText = "";
-                    STDOut.ReadOnly = true;
-                }
-                STDOut.AppendText(text + "\n");
+                STDOut.AppendText(text+"\n");
             };
 
             bool exitBool=false;
