@@ -1,4 +1,5 @@
-﻿using AIActions.UserData;
+﻿using AIActions.ExternalData;
+using AIActions.UserData;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -7,6 +8,7 @@ using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace AIActions.Configs
 {
@@ -274,6 +276,36 @@ namespace AIActions.Configs
 
             return parsedConfigs;
 
+        }
+
+        public async Task<ParsedConfig?> LoadFromName(string codename)
+        {
+            string? configFullPath = null;
+            SortedDictionary<string, string> configFiles = Paths.ConfigFiles;
+            if (configFiles.ContainsKey(codename))
+            {
+                configFullPath = configFiles[codename];
+            }
+
+            if (configFullPath != null)
+            {
+                return await LoadFromFile(configFullPath);
+            }
+            return null;
+        }
+
+        public async Task<ParsedConfig?> LoadFromAppSettings()
+        {
+            try
+            {
+                string currentConfigName = AppSettings.GetCurrentConfig();
+                return await LoadFromName(currentConfigName);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show($"Failed to load application settings (if the issue persists remove the ./user_data/app_settings.json file or ensure that the program has permisison to open it)");
+                return null;
+            }
         }
     }
 }
