@@ -81,6 +81,7 @@
             MinimumSize = new Size(552, 275);
             Name = "ConfigsListWindow";
             StartPosition = FormStartPosition.CenterScreen;
+            Icon = (Icon)Properties.Resources.Icon;
             Text = "Config Setup";
             FormClosed += ConfigsListWindow_Closed;
             tableLayoutPanel1.ResumeLayout(false);

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PromptWindow));
             RunAction = new Button();
             Settings = new Button();
             PromptBox = new RichTextBoxEx();
@@ -73,6 +74,7 @@
             Controls.Add(RunAction);
             Controls.Add(PromptBox);
             FormBorderStyle = FormBorderStyle.FixedSingle;
+            Icon = (Icon)Properties.Resources.Icon;
             MaximizeBox = false;
             Name = "PromptWindow";
             StartPosition = FormStartPosition.CenterScreen;

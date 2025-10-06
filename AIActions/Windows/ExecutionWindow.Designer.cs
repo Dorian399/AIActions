@@ -207,6 +207,7 @@
             Controls.Add(tableLayoutPanel1);
             Name = "ExecutionWindow";
             StartPosition = FormStartPosition.CenterScreen;
+            Icon = (Icon)Properties.Resources.Icon;
             Text = "AI Actions";
             FormClosed += ExecutionWindow_FormClosed;
             Load += ExecutionWindow_Load;
