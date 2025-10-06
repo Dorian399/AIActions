@@ -303,7 +303,7 @@ namespace AIActions.Configs
             }
             catch (Exception e)
             {
-                MessageBox.Show($"Failed to load application settings (if the issue persists remove the ./user_data/app_settings.json file or ensure that the program has permisison to open it)");
+                MessageBox.Show($"Failed to load application settings (if the issue persists remove the "+Paths.AppSettingsFile+" file or ensure that the program has permisison to open it)");
                 return null;
             }
         }

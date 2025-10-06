@@ -1,4 +1,5 @@
 ﻿using AIActions.Configs;
+using AIActions.ExternalData;
 using AIActions.UserData;
 using System;
 using System.Collections.Generic;
@@ -36,7 +37,7 @@ namespace AIActions.Windows.ConfigWindows.ConfigFilesSelector
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Failed to load variable: " + variableName + ", for config: " + _configCodename + "\nIf the issue persists remove your ./user_data/app_settings.json file or check it's permissions. \nExact exception: \n" + ex.Message);
+                MessageBox.Show("Failed to load variable: " + variableName + ", for config: " + _configCodename + "\nIf the issue persists remove your "+Paths.AppSettingsFile+" file or check it's permissions. \nExact exception: \n" + ex.Message);
             }
 
             if (!string.IsNullOrWhiteSpace(savedVarText)) {
@@ -80,7 +81,7 @@ namespace AIActions.Windows.ConfigWindows.ConfigFilesSelector
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Failed to save variable: " + _variableName + ", for config: " + _configCodename + "\nIf the issue persists remove your ./user_data/app_settings.json file or check it's permissions. \nExact exception: \n"+ex.Message);
+                MessageBox.Show("Failed to save variable: " + _variableName + ", for config: " + _configCodename + "\nIf the issue persists remove your "+Paths.AppSettingsFile+" file or check it's permissions. \nExact exception: \n"+ex.Message);
             }
         }
     }
