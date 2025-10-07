@@ -46,15 +46,39 @@ namespace AIActions
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
 
+            if (!Directory.Exists(Paths.ExternalDataFolder))
+            {
+                MessageBox.Show($"Missing data directory, check your {Paths.ExternalDataFolder} directory or reinstall the program.");
+                return 1;
+            }
+
             if (!File.Exists(Paths.PythonExecutable))
             {
-                MessageBox.Show("Missing Python executable, check your /data/python directory or reinstall the program.");
+                MessageBox.Show($"Missing Python executable, check your {Paths.PythonExecutable} directory or reinstall the program.");
                 return 1;
             }
 
             if (!File.Exists(Paths.PipExecutable))
             {
-                MessageBox.Show("Missing pip module for Python, check your /data/python directory or reinstall the program.");
+                MessageBox.Show($"Missing pip module for Python, check your {Paths.PipExecutable} directory or reinstall the program.");
+                return 1;
+            }
+
+            if (!Directory.Exists(Paths.ConfigFilesFolder))
+            {
+                MessageBox.Show($"Missing config_files directory, check your {Paths.ConfigFilesFolder} directory or reinstall the program.");
+                return 1;
+            }
+
+            if (!File.Exists(Paths.PromptFolderTextFile))
+            {
+                MessageBox.Show($"Missing prompts_folder.txt file, check your {Paths.PromptFolderTextFile} directory or reinstall the program.");
+                return 1;
+            }
+
+            if (!File.Exists(Paths.PromptFileTextFile))
+            {
+                MessageBox.Show($"Missing prompts_file.txt file, check your {Paths.PromptFileTextFile} directory or reinstall the program.");
                 return 1;
             }
 
@@ -97,7 +121,6 @@ namespace AIActions
                     }
                     if(args.Length > 0)
                         return 1;
-                    }
                 }
 
                 if(!silentRegister)
