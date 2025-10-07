@@ -41,7 +41,7 @@ namespace AIActions
         ///  The main entry point for the application.
         /// </summary>
         [STAThread]
-        static async Task Main(string[] args)
+        static async Task<int> Main(string[] args)
         {
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
@@ -49,13 +49,13 @@ namespace AIActions
             if (!File.Exists(Paths.PythonExecutable))
             {
                 MessageBox.Show("Missing Python executable, check your /data/python directory or reinstall the program.");
-                return;
+                return 1;
             }
 
             if (!File.Exists(Paths.PipExecutable))
             {
                 MessageBox.Show("Missing pip module for Python, check your /data/python directory or reinstall the program.");
-                return;
+                return 1;
             }
 
             string? workFolder=null;
@@ -65,7 +65,7 @@ namespace AIActions
                 if (args[0] == "register")
                     shouldRegister = true;
                 else
-                workFolder = args[0];
+                    workFolder = args[0];
             }
             else
             {
@@ -103,6 +103,7 @@ namespace AIActions
             MainWindow = new PromptWindow(workFolder, parsedConfig);
 
             Application.Run(MainWindow);
+            return MainWindow.ExitCode;
         }
     }
 }

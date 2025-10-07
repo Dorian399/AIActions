@@ -9,6 +9,7 @@ namespace AIActions
 
         private string _currentFolderOrFile;
         private ParsedConfig _currentConfig;
+        public int ExitCode = 0;
         public PromptWindow(string? folderOrFile,ParsedConfig? configFile)
         {
             _currentFolderOrFile = folderOrFile;
@@ -37,6 +38,7 @@ namespace AIActions
             if (!Path.Exists(_currentFolderOrFile))
             {
                 MessageBox.Show("Missing file or folder. Make sure to run this program from the context menu (Right click).");
+                ExitCode = 1;
                 this.Close();
                 return false;
             }
@@ -64,6 +66,8 @@ namespace AIActions
             }
             else
             {
+                MessageBox.Show("Failed to update the window's data, make sure the ( file/folder/current config file ) that was opened/applied still exists and has proper permissions.");
+                ExitCode = 1;
                 this.Close();
             }
         }
