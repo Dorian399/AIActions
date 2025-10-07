@@ -58,18 +58,30 @@ namespace AIActions
                 return 1;
             }
 
-            string? workFolder=null;
+            // Register logic explanation:
+            // register argument = register with results in a message box (stops execution after register).
+            // registersilent argument = register silently (stops execution after register).
+            // no arguments = register silently (dont stop execution, will show missing file/folder error).
+            string? fileOrFolder=null;
             bool shouldRegister = false;
+            bool silentRegister = false;
             if (args.Length > 0)
             {
                 if (args[0] == "register")
                     shouldRegister = true;
+                else if (args[0] == "silentregister")
+                {
+                    shouldRegister = true;
+                    silentRegister = true;
+                }
                 else
-                    workFolder = args[0];
+                    // Set file or folder.
+                    fileOrFolder = args[0];
             }
             else
             {
                 shouldRegister = true;
+                silentRegister = true;
             }
 
             if (shouldRegister) 
@@ -79,15 +91,16 @@ namespace AIActions
                     RegisterContextMenu();
                 }catch(Exception e)
                 {
-                    if (args.Length > 0)
+                    if (!silentRegister)
                     {
                         MessageBox.Show($"Failed to register the app to the context menu.\nFull exception: {e.Message}");
+                    }
+                    if(args.Length > 0)
                         return 1;
                     }
                 }
 
-                // no arguments = silent register
-                if(args.Length > 0)
+                if(!silentRegister)
                 {
                     MessageBox.Show("Sucessfully registered the app to the context menu.");
                     return 0;
@@ -99,8 +112,8 @@ namespace AIActions
 
             ApplicationConfiguration.Initialize();
 
-            // The window will auto redirect to config selection if  something is wrong.
-            MainWindow = new PromptWindow(workFolder, parsedConfig);
+            // The window will auto redirect to config selection if  something is wrong with the config.
+            MainWindow = new PromptWindow(fileOrFolder, parsedConfig);
 
             Application.Run(MainWindow);
             return MainWindow.ExitCode;
