@@ -15,7 +15,7 @@ namespace AIActions.Python
             ProcessExec process = new ProcessExec();
             process.UiControl = uiControl;
             process.OnOutput = text => OnOutput?.Invoke(text);
-            OnOutput?.Invoke("Running script: " + scriptPath);
+            OnOutput?.Invoke("Running script: " + scriptPath+"\n");
             int exitCode = await process.StartAsync(Paths.PythonExecutable,scriptPath,token,workingDirectory);
             if(exitCode == 0)
             {
