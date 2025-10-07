@@ -20,8 +20,9 @@ namespace AIActions.Python
 
         public ProcessExec() { }
 
-        private void SendOutput(ref ConcurrentQueue<string> queue)
+        private Task SendOutput(ref ConcurrentQueue<string> queue)
         {
+            TaskCompletionSource tcs = new TaskCompletionSource();
             StringBuilder sb = new StringBuilder();
             while (queue.TryDequeue(out string? data))
             {
@@ -29,7 +30,18 @@ namespace AIActions.Python
             }
             string fullData = sb.ToString();
             if (UiControl != null && UiControl.IsHandleCreated && !string.IsNullOrWhiteSpace(fullData))
-                UiControl?.BeginInvoke(new Action(() => OnOutput?.Invoke(fullData)));
+            {
+                UiControl?.BeginInvoke(new Action(() => {
+                    OnOutput?.Invoke(fullData);
+                    tcs.SetResult();
+                }));
+            }
+            else
+            {
+                tcs.SetResult();
+            }
+            
+            return tcs.Task;
         }
 
         public async Task<int> StartAsync(string executable, string arguments, CancellationToken token = default, string workingDirectory = "")
@@ -85,7 +97,7 @@ namespace AIActions.Python
             }
             OutputThrottler.Stop();
             // Send the rest of the output.
-            SendOutput(ref OutputQueue);
+            await SendOutput(ref OutputQueue);
             return process.ExitCode;
         }
     }
