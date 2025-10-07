@@ -9,7 +9,7 @@ namespace AIActions.ExternalData
 {
     internal class Paths
     {
-        // Root folder.
+        // Data folder.
         public static string ExternalDataFolder { 
             get
             {
@@ -26,7 +26,17 @@ namespace AIActions.ExternalData
             }
         }
 
-        // App settings related
+        // Icon for context menu.
+
+        public static string ContextMenuIcon
+        {
+            get
+            {
+                return Path.Combine(ExternalDataFolder, "context_menu_icon.ico");
+            }
+        }
+
+        // App settings file.
 
         public static string AppSettingsFile
         {
