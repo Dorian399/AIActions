@@ -14,6 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static AIActions.AI.AIRequester;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace AIActions
 {
@@ -140,8 +141,8 @@ namespace AIActions
                     token
                 );
             }
-            catch (Exception ex) { 
-                Debug.Write(ex.ToString() );
+            catch (Exception ex) {
+                STDOut.AppendText("\n Result execution failed: "+ex.Message + "\n");
             }
 
             if (exitBool)

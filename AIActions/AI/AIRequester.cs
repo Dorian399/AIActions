@@ -101,7 +101,12 @@ namespace AIActions.AI
             ParsedResult parsedResult = ResultParser.FromJson(result,config.ResponseJsonPath);
 
             if (!parsedResult.IsValid) {
-                string errorString = parsedResult.Comments + "\n\nResponse:\n" + result + "\n\nJSONPath: " + config.ResponseJsonPath;
+                string headersString = "";
+                foreach (var kvp in headers)
+                {
+                    headersString = headersString + kvp.Key + ": " + kvp.Value+"\n";
+                }
+                string errorString = parsedResult.Comments + "\n\nRequest headers:\n" + headersString + "\n\nRequest body:\n"+ requestBody + "\n\nResponse:\n" + result + "\n\nJSONPath: " + config.ResponseJsonPath;
                 OnStatusChanged?.Invoke("Error: Results failed to parse.", StatusCode.Error, error: errorString);
                 return;
             }
