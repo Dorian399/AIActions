@@ -30,7 +30,7 @@ namespace AIActions.Python
             try
             {
                 OnOutput?.Invoke("Installing " + package);
-                int code = await executor.StartAsync(Paths.PythonExecutable,"-m pip install " + package,token);
+                int code = await executor.StartAsync(Paths.PythonExecutable,"-m pip install --target \""+Paths.PipPackagesFolder+"\" " + package,token);
                 if (code != 0) {
                     // If install failed try to install package without the specific version
                     int index = package.IndexOf("==");

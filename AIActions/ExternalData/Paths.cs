@@ -147,6 +147,14 @@ namespace AIActions.ExternalData
             }
         }
 
+        public static string PipPackagesFolder
+        {
+            get
+            {
+                return Path.Combine(UserDataFolder, "pip_packages");
+            }
+        }
+
         public static string PythonScriptsFolder
         {
             get
