@@ -35,7 +35,7 @@ namespace AIActions.AI
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(rawPrompt))
+            if (string.IsNullOrWhiteSpace(rawPrompt) || rawPrompt == "Enter your prompt.")
             {
                 OnStatusChanged?.Invoke("Error: No prompt provided.", StatusCode.Error);
                 return;
