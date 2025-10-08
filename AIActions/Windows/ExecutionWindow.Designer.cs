@@ -111,9 +111,9 @@
             // 
             ShowCodeButton.Dock = DockStyle.Right;
             ShowCodeButton.Enabled = false;
-            ShowCodeButton.Location = new Point(603, 3);
+            ShowCodeButton.Location = new Point(612, 3);
             ShowCodeButton.Name = "ShowCodeButton";
-            ShowCodeButton.Size = new Size(103, 28);
+            ShowCodeButton.Size = new Size(99, 28);
             ShowCodeButton.TabIndex = 3;
             ShowCodeButton.Text = "Show code";
             ShowCodeButton.UseVisualStyleBackColor = true;
@@ -121,7 +121,7 @@
             // Cancel
             // 
             Cancel.Dock = DockStyle.Right;
-            Cancel.Location = new Point(517, 3);
+            Cancel.Location = new Point(528, 3);
             Cancel.Name = "Cancel";
             Cancel.Size = new Size(78, 28);
             Cancel.TabIndex = 2;
@@ -133,9 +133,9 @@
             // 
             Confirm.Dock = DockStyle.Right;
             Confirm.Enabled = false;
-            Confirm.Location = new Point(713, 3);
+            Confirm.Location = new Point(717, 3);
             Confirm.Name = "Confirm";
-            Confirm.Size = new Size(78, 28);
+            Confirm.Size = new Size(74, 28);
             Confirm.TabIndex = 1;
             Confirm.Text = "Confirm";
             Confirm.UseVisualStyleBackColor = true;
@@ -173,10 +173,10 @@
             // 
             tableLayoutPanel2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             tableLayoutPanel2.ColumnCount = 4;
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 85.78595F));
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 14.2140465F));
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 111F));
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 84F));
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 105F));
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 80F));
             tableLayoutPanel2.Controls.Add(Cancel, 1, 0);
             tableLayoutPanel2.Controls.Add(ShowCodeButton, 2, 0);
             tableLayoutPanel2.Controls.Add(Confirm, 3, 0);
@@ -184,8 +184,7 @@
             tableLayoutPanel2.Location = new Point(3, 154);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
             tableLayoutPanel2.RowCount = 1;
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             tableLayoutPanel2.Size = new Size(794, 34);
             tableLayoutPanel2.TabIndex = 2;
             // 
@@ -195,7 +194,7 @@
             progressBar1.Location = new Point(5, 5);
             progressBar1.Margin = new Padding(5);
             progressBar1.Name = "progressBar1";
-            progressBar1.Size = new Size(503, 24);
+            progressBar1.Size = new Size(515, 24);
             progressBar1.Style = ProgressBarStyle.Continuous;
             progressBar1.TabIndex = 4;
             // 
@@ -205,9 +204,10 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 191);
             Controls.Add(tableLayoutPanel1);
+            Icon = Properties.Resources.Icon;
+            MinimumSize = new Size(300, 200);
             Name = "ExecutionWindow";
             StartPosition = FormStartPosition.CenterScreen;
-            Icon = (Icon)Properties.Resources.Icon;
             Text = "AI Actions";
             FormClosed += ExecutionWindow_FormClosed;
             Load += ExecutionWindow_Load;

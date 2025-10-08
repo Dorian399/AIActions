@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PromptWindow));
             RunAction = new Button();
             Settings = new Button();
             PromptBox = new RichTextBoxEx();
@@ -36,9 +35,11 @@
             // 
             // RunAction
             // 
-            RunAction.Location = new Point(711, 52);
+            RunAction.Font = new Font("Segoe UI", 8F);
+            RunAction.Location = new Point(622, 39);
+            RunAction.Margin = new Padding(3, 2, 3, 2);
             RunAction.Name = "RunAction";
-            RunAction.Size = new Size(77, 29);
+            RunAction.Size = new Size(67, 22);
             RunAction.TabIndex = 1;
             RunAction.Text = "Execute";
             RunAction.UseVisualStyleBackColor = true;
@@ -46,9 +47,11 @@
             // 
             // Settings
             // 
-            Settings.Location = new Point(711, 12);
+            Settings.Font = new Font("Segoe UI", 8F);
+            Settings.Location = new Point(622, 9);
+            Settings.Margin = new Padding(3, 2, 3, 2);
             Settings.Name = "Settings";
-            Settings.Size = new Size(77, 27);
+            Settings.Size = new Size(67, 22);
             Settings.TabIndex = 2;
             Settings.Text = "Settings";
             Settings.UseVisualStyleBackColor = true;
@@ -57,24 +60,26 @@
             // PromptBox
             // 
             PromptBox.Cue = "Enter your prompt.";
-            PromptBox.Location = new Point(8, 12);
+            PromptBox.Location = new Point(7, 9);
+            PromptBox.Margin = new Padding(3, 2, 3, 2);
             PromptBox.MaxLength = 5000;
             PromptBox.Name = "PromptBox";
-            PromptBox.Size = new Size(697, 69);
+            PromptBox.Size = new Size(610, 53);
             PromptBox.TabIndex = 0;
             PromptBox.Text = "";
             PromptBox.EnterPressed += PromptBox_EnterPressed;
             // 
             // PromptWindow
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 89);
+            ClientSize = new Size(700, 67);
             Controls.Add(Settings);
             Controls.Add(RunAction);
             Controls.Add(PromptBox);
             FormBorderStyle = FormBorderStyle.FixedSingle;
-            Icon = (Icon)Properties.Resources.Icon;
+            Icon = Properties.Resources.Icon;
+            Margin = new Padding(3, 2, 3, 2);
             MaximizeBox = false;
             Name = "PromptWindow";
             StartPosition = FormStartPosition.CenterScreen;
