@@ -151,7 +151,7 @@ namespace AIActions.ExternalData
         {
             get
             {
-                return Path.Combine(Paths.ExternalDataFolder, "scripts_history");
+                return Path.Combine(UserDataFolder, "scripts_history");
             }
         }
     }

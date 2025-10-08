@@ -24,6 +24,10 @@ namespace AIActions.Python
             // Create the script file
 
             long unixTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+
+            if (!Directory.Exists(Paths.PythonScriptsFolder))
+                Directory.CreateDirectory(Paths.PythonScriptsFolder);
+
             string scriptPath = Path.Combine(Paths.PythonScriptsFolder, unixTimestamp + ".py");
 
             FileStream script = File.Create( scriptPath );
