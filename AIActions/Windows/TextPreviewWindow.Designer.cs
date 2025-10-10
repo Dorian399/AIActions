@@ -50,6 +50,7 @@
             Controls.Add(TextPreview);
             Name = "TextPreviewWindow";
             Text = "Code preview";
+            Icon = Properties.Resources.Icon;
             ResumeLayout(false);
         }
 
