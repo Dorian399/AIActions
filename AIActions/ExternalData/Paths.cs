@@ -32,7 +32,7 @@ namespace AIActions.ExternalData
         {
             get
             {
-                return Path.Combine(ExternalDataFolder, "context_menu_icon.ico");
+                return Path.Combine(ExternalDataFolder,"icons", "context_menu_icon.ico");
             }
         }
 
