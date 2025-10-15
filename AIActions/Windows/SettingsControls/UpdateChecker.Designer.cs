@@ -74,6 +74,7 @@
             updateButton.TabIndex = 1;
             updateButton.Text = "Update";
             updateButton.UseVisualStyleBackColor = true;
+            updateButton.Click += UpdateButton_Click;
             // 
             // UpdateChecker
             // 
