@@ -44,6 +44,7 @@ namespace AIActions.Windows.SettingsControls
         public Color HoverBackgroundColor { get; set; } = Color.FromArgb(223,236,249);
         public Color BorderColor { get; set; } = SystemColors.Highlight;
         public Color ActiveBackgroundColor { get; set; } = SystemColors.GradientInactiveCaption;
+        public Image Image { get { return pictureBox1.Image; } set { pictureBox1.Image = value; } }
         public Padding ImageMargin { get { return pictureBox1.Margin; } set { pictureBox1.Margin = value; } }
         public string LabelText { 
             get 

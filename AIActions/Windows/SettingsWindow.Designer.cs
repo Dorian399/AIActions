@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingsWindow));
             tableLayoutPanel1 = new TableLayoutPanel();
             tabControl1 = new TabControl();
             Configs = new TabPage();
@@ -147,6 +148,7 @@
             settingsTabButton1.BorderColor = SystemColors.Highlight;
             settingsTabButton1.Dock = DockStyle.Top;
             settingsTabButton1.HoverBackgroundColor = Color.FromArgb(223, 236, 249);
+            settingsTabButton1.Image = (Image)resources.GetObject("settingsTabButton1.Image");
             settingsTabButton1.ImageMargin = new Padding(2);
             settingsTabButton1.LabelText = "Configs";
             settingsTabButton1.Location = new Point(1, 1);
@@ -163,6 +165,7 @@
             settingsTabButton2.BorderColor = SystemColors.Highlight;
             settingsTabButton2.Dock = DockStyle.Top;
             settingsTabButton2.HoverBackgroundColor = Color.FromArgb(223, 236, 249);
+            settingsTabButton2.Image = Properties.Resources.PythonIcon;
             settingsTabButton2.ImageMargin = new Padding(2);
             settingsTabButton2.LabelText = "Python";
             settingsTabButton2.Location = new Point(1, 46);
@@ -179,6 +182,7 @@
             settingsTabButton3.BorderColor = SystemColors.Highlight;
             settingsTabButton3.Dock = DockStyle.Top;
             settingsTabButton3.HoverBackgroundColor = Color.FromArgb(223, 236, 249);
+            settingsTabButton3.Image = Properties.Resources.UpdateIcon;
             settingsTabButton3.ImageMargin = new Padding(2);
             settingsTabButton3.LabelText = "Updates";
             settingsTabButton3.Location = new Point(1, 91);
