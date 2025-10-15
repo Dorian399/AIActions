@@ -32,6 +32,7 @@
             tableLayoutPanel1 = new TableLayoutPanel();
             tabControl1 = new TabControl();
             Configs = new TabPage();
+            configsList1 = new AIActions.Windows.ConfigWindows.ConfigsList();
             Python = new TabPage();
             Updates = new TabPage();
             updateChecker1 = new AIActions.Windows.SettingsControls.UpdateChecker();
@@ -42,6 +43,7 @@
             closeButton = new Button();
             tableLayoutPanel1.SuspendLayout();
             tabControl1.SuspendLayout();
+            Configs.SuspendLayout();
             Updates.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
             SuspendLayout();
@@ -49,8 +51,8 @@
             // tableLayoutPanel1
             // 
             tableLayoutPanel1.ColumnCount = 2;
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 18.75F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 81.25F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 161F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tableLayoutPanel1.Controls.Add(tabControl1, 1, 0);
             tableLayoutPanel1.Controls.Add(tableLayoutPanel2, 0, 0);
             tableLayoutPanel1.Controls.Add(closeButton, 1, 1);
@@ -73,25 +75,36 @@
             tabControl1.Dock = DockStyle.Fill;
             tabControl1.Font = new Font("Segoe UI", 1F);
             tabControl1.ItemSize = new Size(0, 1);
-            tabControl1.Location = new Point(150, 0);
+            tabControl1.Location = new Point(161, 0);
             tabControl1.Margin = new Padding(0);
             tabControl1.Multiline = true;
             tabControl1.Name = "tabControl1";
             tabControl1.Padding = new Point(0, 0);
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(650, 410);
+            tabControl1.Size = new Size(639, 410);
             tabControl1.SizeMode = TabSizeMode.Fixed;
             tabControl1.TabIndex = 1;
             // 
             // Configs
             // 
+            Configs.Controls.Add(configsList1);
+            Configs.Font = new Font("Segoe UI", 9F);
             Configs.Location = new Point(4, 5);
             Configs.Margin = new Padding(0);
             Configs.Name = "Configs";
-            Configs.Size = new Size(642, 401);
+            Configs.Size = new Size(631, 401);
             Configs.TabIndex = 0;
             Configs.Text = "Configs";
             Configs.UseVisualStyleBackColor = true;
+            // 
+            // configsList1
+            // 
+            configsList1.Dock = DockStyle.Fill;
+            configsList1.Location = new Point(0, 0);
+            configsList1.Name = "configsList1";
+            configsList1.OnConfigChosen = null;
+            configsList1.Size = new Size(631, 401);
+            configsList1.TabIndex = 0;
             // 
             // Python
             // 
@@ -138,7 +151,7 @@
             tableLayoutPanel2.RowStyles.Add(new RowStyle());
             tableLayoutPanel2.RowStyles.Add(new RowStyle());
             tableLayoutPanel2.RowStyles.Add(new RowStyle());
-            tableLayoutPanel2.Size = new Size(141, 286);
+            tableLayoutPanel2.Size = new Size(152, 286);
             tableLayoutPanel2.TabIndex = 2;
             // 
             // settingsTabButton1
@@ -154,7 +167,7 @@
             settingsTabButton1.Location = new Point(1, 1);
             settingsTabButton1.Margin = new Padding(1, 0, 1, 2);
             settingsTabButton1.Name = "settingsTabButton1";
-            settingsTabButton1.Size = new Size(139, 43);
+            settingsTabButton1.Size = new Size(150, 43);
             settingsTabButton1.TabControl = tabControl1;
             settingsTabButton1.TabIndex = 0;
             // 
@@ -171,7 +184,7 @@
             settingsTabButton2.Location = new Point(1, 46);
             settingsTabButton2.Margin = new Padding(1, 0, 1, 2);
             settingsTabButton2.Name = "settingsTabButton2";
-            settingsTabButton2.Size = new Size(139, 43);
+            settingsTabButton2.Size = new Size(150, 43);
             settingsTabButton2.TabControl = tabControl1;
             settingsTabButton2.TabIndex = 1;
             // 
@@ -188,7 +201,7 @@
             settingsTabButton3.Location = new Point(1, 91);
             settingsTabButton3.Margin = new Padding(1, 0, 1, 2);
             settingsTabButton3.Name = "settingsTabButton3";
-            settingsTabButton3.Size = new Size(139, 43);
+            settingsTabButton3.Size = new Size(150, 43);
             settingsTabButton3.TabControl = tabControl1;
             settingsTabButton3.TabIndex = 2;
             // 
@@ -215,6 +228,7 @@
             Text = "Settings";
             tableLayoutPanel1.ResumeLayout(false);
             tabControl1.ResumeLayout(false);
+            Configs.ResumeLayout(false);
             Updates.ResumeLayout(false);
             tableLayoutPanel2.ResumeLayout(false);
             ResumeLayout(false);
@@ -233,5 +247,6 @@
         private SettingsControls.SettingsTabButton settingsTabButton2;
         private SettingsControls.SettingsTabButton settingsTabButton3;
         private Button closeButton;
+        private ConfigWindows.ConfigsList configsList1;
     }
 }
