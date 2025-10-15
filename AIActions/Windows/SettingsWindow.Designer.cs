@@ -111,7 +111,7 @@
             Python.Location = new Point(4, 5);
             Python.Name = "Python";
             Python.Padding = new Padding(3);
-            Python.Size = new Size(642, 401);
+            Python.Size = new Size(631, 401);
             Python.TabIndex = 1;
             Python.Text = "Python";
             Python.UseVisualStyleBackColor = true;
@@ -121,7 +121,7 @@
             Updates.Controls.Add(updateChecker1);
             Updates.Location = new Point(4, 5);
             Updates.Name = "Updates";
-            Updates.Size = new Size(642, 401);
+            Updates.Size = new Size(631, 401);
             Updates.TabIndex = 2;
             Updates.Text = "Updates";
             Updates.UseVisualStyleBackColor = true;
@@ -131,7 +131,7 @@
             updateChecker1.Dock = DockStyle.Fill;
             updateChecker1.Location = new Point(0, 0);
             updateChecker1.Name = "updateChecker1";
-            updateChecker1.Size = new Size(642, 401);
+            updateChecker1.Size = new Size(631, 401);
             updateChecker1.TabIndex = 0;
             // 
             // tableLayoutPanel2
@@ -142,7 +142,7 @@
             tableLayoutPanel2.Controls.Add(settingsTabButton1, 0, 0);
             tableLayoutPanel2.Controls.Add(settingsTabButton2, 0, 1);
             tableLayoutPanel2.Controls.Add(settingsTabButton3, 0, 2);
-            tableLayoutPanel2.Dock = DockStyle.Top;
+            tableLayoutPanel2.Dock = DockStyle.Fill;
             tableLayoutPanel2.Location = new Point(6, 6);
             tableLayoutPanel2.Margin = new Padding(6, 6, 3, 3);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
@@ -151,7 +151,7 @@
             tableLayoutPanel2.RowStyles.Add(new RowStyle());
             tableLayoutPanel2.RowStyles.Add(new RowStyle());
             tableLayoutPanel2.RowStyles.Add(new RowStyle());
-            tableLayoutPanel2.Size = new Size(152, 286);
+            tableLayoutPanel2.Size = new Size(152, 401);
             tableLayoutPanel2.TabIndex = 2;
             // 
             // settingsTabButton1
