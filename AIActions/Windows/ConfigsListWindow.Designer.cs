@@ -83,7 +83,7 @@
             StartPosition = FormStartPosition.CenterScreen;
             Icon = (Icon)Properties.Resources.Icon;
             Text = "Config Setup";
-            FormClosed += ConfigsListWindow_Closed;
+            FormClosing += ConfigsListWindow_FormClosing;
             tableLayoutPanel1.ResumeLayout(false);
             ResumeLayout(false);
         }

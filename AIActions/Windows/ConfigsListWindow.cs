@@ -30,7 +30,7 @@ namespace AIActions.Windows
             this.Close();
         }
 
-        private async void ConfigsListWindow_Closed(object sender, EventArgs e)
+        private async void ConfigsListWindow_FormClosing(object sender, EventArgs e)
         {
             ConfigLoader loader = new ConfigLoader();
             ParsedConfig? parsedConfig = await loader.LoadFromAppSettings();
