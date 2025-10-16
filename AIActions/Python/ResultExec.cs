@@ -1,5 +1,6 @@
 ﻿using AIActions.AI.Results;
 using AIActions.ExternalData;
+using AIActions.Python;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -21,6 +22,16 @@ namespace AIActions.Python
             CancellationToken token = default
         )
         {
+            // Make sure that pth file pointing to pip packages exist.
+
+            if (!Directory.Exists(Paths.PythonSitesPackageFolder))
+                Directory.CreateDirectory(Paths.PythonSitesPackageFolder);
+
+            string pthFile = Path.Combine(Paths.PythonSitesPackageFolder, "ai_actions_pth.pth");
+
+            File.WriteAllText(pthFile, Paths.PipPackagesFolder);
+
+
             // Create the script file
 
             long unixTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();

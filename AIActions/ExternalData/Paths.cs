@@ -131,6 +131,13 @@ namespace AIActions.ExternalData
                 return Path.Combine(ExternalDataFolder, "python");
             }
         }
+        public static string PythonSitesPackageFolder
+        {
+            get
+            {
+                return Path.Combine(PythonFolder, "Lib", "site-packages");
+            }
+        }
         public static string PythonExecutable
         {
             get
