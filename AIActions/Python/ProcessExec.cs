@@ -29,8 +29,16 @@ namespace AIActions.Python
                 sb.AppendLine(data);
             }
             string fullData = sb.ToString();
-            if (UiControl != null && UiControl.IsHandleCreated && !string.IsNullOrWhiteSpace(fullData))
+
+            if (string.IsNullOrWhiteSpace(fullData))
             {
+                tcs.SetResult();
+                return tcs.Task;
+            }
+
+            if (UiControl != null && UiControl.IsHandleCreated)
+            {
+
                 UiControl?.BeginInvoke(new Action(() => {
                     OnOutput?.Invoke(fullData);
                     tcs.SetResult();
@@ -38,6 +46,7 @@ namespace AIActions.Python
             }
             else
             {
+                OnOutput?.Invoke(fullData);
                 tcs.SetResult();
             }
             
