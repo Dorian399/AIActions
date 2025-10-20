@@ -9,12 +9,15 @@ namespace AIActions
 
         private string _currentFolderOrFile;
         private ParsedConfig _currentConfig;
+        private SettingsWindow _settingsWindow;
+        private string _origTitle;
         public int ExitCode = 0;
         public PromptWindow(string? folderOrFile,ParsedConfig? configFile)
         {
             _currentFolderOrFile = folderOrFile;
             _currentConfig = configFile;
             InitializeComponent();
+            _origTitle = Text;
         }
 
         protected override void OnLoad(EventArgs e) // Makes it so the window is manually shown.
@@ -60,13 +63,13 @@ namespace AIActions
 
             if (CheckData())
             {
-                this.Text += " " + _currentFolderOrFile;
+                this.Text = _origTitle + " " + _currentFolderOrFile;
                 if(shouldPopUp)
                     this.MakePopup();
             }
             else
             {
-                MessageBox.Show("Failed to update the window's data, make sure the ( file/folder/current config file ) that was opened/applied still exists and has proper permissions.");
+                MessageBox.Show("Failed to update the window's data, exiting.");
                 ExitCode = 1;
                 this.Close();
             }
@@ -92,7 +95,8 @@ namespace AIActions
 
         private void Settings_Click(object sender, EventArgs e)
         {
-            // TO DO: Launch actual settings window.
+            _settingsWindow = new SettingsWindow();
+            _settingsWindow.Show();
         }
 
         private void PromptBox_EnterPressed(object sender, EventArgs e)
