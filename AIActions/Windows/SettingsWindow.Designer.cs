@@ -226,6 +226,7 @@
             Icon = Properties.Resources.Icon;
             Name = "SettingsWindow";
             Text = "Settings";
+            FormClosing += SettingsWindow_FormClosing;
             tableLayoutPanel1.ResumeLayout(false);
             tabControl1.ResumeLayout(false);
             Configs.ResumeLayout(false);
