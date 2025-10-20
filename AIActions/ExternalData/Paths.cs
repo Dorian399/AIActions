@@ -17,12 +17,20 @@ namespace AIActions.ExternalData
             }
         }
 
-        // Userdata folder.
+        // Userdata related.
         public static string UserDataFolder
         {
             get
             {
                 return Path.Combine(AppContext.BaseDirectory, "user_data");
+            }
+        }
+
+        public static string TemporaryFilesFolder
+        {
+            get
+            {
+                return Path.Combine(UserDataFolder, "temp_files");
             }
         }
 
