@@ -95,6 +95,8 @@ namespace AIActions
 
         private void Settings_Click(object sender, EventArgs e)
         {
+            if ( _settingsWindow!=null && !_settingsWindow.IsDisposed)
+                return;
             _settingsWindow = new SettingsWindow();
             _settingsWindow.Show();
         }
