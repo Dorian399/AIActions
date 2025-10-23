@@ -41,9 +41,11 @@
             settingsTabButton2 = new AIActions.Windows.SettingsControls.SettingsTabButton();
             settingsTabButton3 = new AIActions.Windows.SettingsControls.SettingsTabButton();
             closeButton = new Button();
+            pythonSettings1 = new AIActions.Windows.SettingsControls.PythonSettings();
             tableLayoutPanel1.SuspendLayout();
             tabControl1.SuspendLayout();
             Configs.SuspendLayout();
+            Python.SuspendLayout();
             Updates.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
             SuspendLayout();
@@ -108,6 +110,8 @@
             // 
             // Python
             // 
+            Python.Controls.Add(pythonSettings1);
+            Python.Font = new Font("Segoe UI", 20F);
             Python.Location = new Point(4, 5);
             Python.Name = "Python";
             Python.Padding = new Padding(3);
@@ -157,7 +161,7 @@
             // settingsTabButton1
             // 
             settingsTabButton1.ActiveBackgroundColor = SystemColors.GradientInactiveCaption;
-            settingsTabButton1.BackColor = SystemColors.GradientInactiveCaption;
+            settingsTabButton1.BackColor = SystemColors.Window;
             settingsTabButton1.BorderColor = SystemColors.Highlight;
             settingsTabButton1.Dock = DockStyle.Top;
             settingsTabButton1.HoverBackgroundColor = Color.FromArgb(223, 236, 249);
@@ -174,7 +178,7 @@
             // settingsTabButton2
             // 
             settingsTabButton2.ActiveBackgroundColor = SystemColors.GradientInactiveCaption;
-            settingsTabButton2.BackColor = SystemColors.Window;
+            settingsTabButton2.BackColor = SystemColors.GradientInactiveCaption;
             settingsTabButton2.BorderColor = SystemColors.Highlight;
             settingsTabButton2.Dock = DockStyle.Top;
             settingsTabButton2.HoverBackgroundColor = Color.FromArgb(223, 236, 249);
@@ -217,6 +221,16 @@
             closeButton.Text = "Close";
             closeButton.UseVisualStyleBackColor = true;
             // 
+            // pythonSettings1
+            // 
+            pythonSettings1.Dock = DockStyle.Fill;
+            pythonSettings1.Font = new Font("Segoe UI", 9F);
+            pythonSettings1.Location = new Point(3, 3);
+            pythonSettings1.Margin = new Padding(3, 4, 3, 4);
+            pythonSettings1.Name = "pythonSettings1";
+            pythonSettings1.Size = new Size(625, 395);
+            pythonSettings1.TabIndex = 0;
+            // 
             // SettingsWindow
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -230,6 +244,7 @@
             tableLayoutPanel1.ResumeLayout(false);
             tabControl1.ResumeLayout(false);
             Configs.ResumeLayout(false);
+            Python.ResumeLayout(false);
             Updates.ResumeLayout(false);
             tableLayoutPanel2.ResumeLayout(false);
             ResumeLayout(false);
@@ -249,5 +264,6 @@
         private SettingsControls.SettingsTabButton settingsTabButton3;
         private Button closeButton;
         private ConfigWindows.ConfigsList configsList1;
+        private SettingsControls.PythonSettings pythonSettings1;
     }
 }
