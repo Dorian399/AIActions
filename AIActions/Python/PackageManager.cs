@@ -12,9 +12,9 @@ namespace AIActions.Python
     {
         public static Action<string>? OnOutput;
 
-        public static async Task<SortedDictionary<string,string>> GetListAsync(CancellationToken token=default)
+        public static async Task<List<string>> GetPackagesAsync(CancellationToken token=default)
         {
-            SortedDictionary<string, string> packages = new SortedDictionary<string, string>();
+            List<string> packages = new List<string>();
 
             ProcessExec executor = new ProcessExec();
             StringBuilder stringBuilder = new StringBuilder();
@@ -32,12 +32,11 @@ namespace AIActions.Python
 
             foreach(var dict in parsedJson)
             {
-                string? key = dict.GetValueOrDefault("name");
-                string? val = dict.GetValueOrDefault("version");
+                string? name = dict.GetValueOrDefault("name");
 
-                if(key==null || val==null) continue;
+                if(name == null || name == "pip") continue;
 
-                packages[key] = val;
+                packages.Add(name);
             }
 
             return packages;
