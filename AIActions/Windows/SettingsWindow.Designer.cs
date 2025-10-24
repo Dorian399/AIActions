@@ -220,6 +220,7 @@
             closeButton.TabIndex = 3;
             closeButton.Text = "Close";
             closeButton.UseVisualStyleBackColor = true;
+            closeButton.Click += CloseButton_Click;
             // 
             // pythonSettings1
             // 
