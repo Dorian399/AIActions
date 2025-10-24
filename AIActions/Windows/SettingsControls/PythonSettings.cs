@@ -31,6 +31,16 @@ namespace AIActions.Windows.SettingsControls
             return size;
         }
 
+        private static int GetDirectoryFileCount(DirectoryInfo directory)
+        {
+            if (directory == null || !directory.Exists)
+            {
+                throw new DirectoryNotFoundException("Directory does not exist.");
+            }
+            int count = directory.GetFiles().Count();
+            return count;
+        }
+
         private void UpdatePipSizeLabel()
         {
             string pipSizeText = pipSizeLabel.Text;
@@ -73,6 +83,23 @@ namespace AIActions.Windows.SettingsControls
             UpdatePipSizeLabel();
 
             PythonInfo.GetPythonVersion(token).ContinueWith(t => { pythonVersionLabel.Text += t.Result; }, TaskContinuationOptions.ExecuteSynchronously);
+
+            // Show amount of scripts generated, and enables the history button if >0.
+            try
+            {
+                int scriptsHistoryCount = GetDirectoryFileCount(new DirectoryInfo(Paths.PythonScriptsFolder));
+                if (scriptsHistoryCount > 0) {
+                    pythonHistoryButton.Enabled = true;
+                }
+                pythonScriptsAmountLabel.Text += scriptsHistoryCount.ToString();
+            }
+            catch (Exception ex)
+            {
+                pythonScriptsAmountLabel.Text += "0";
+            }
+
+
+
 
         }
 

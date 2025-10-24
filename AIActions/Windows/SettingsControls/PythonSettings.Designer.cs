@@ -188,6 +188,7 @@
             // 
             // pythonHistoryButton
             // 
+            pythonHistoryButton.Enabled = false;
             pythonHistoryButton.Font = new Font("Segoe UI", 8F);
             pythonHistoryButton.Location = new Point(3, 49);
             pythonHistoryButton.Name = "pythonHistoryButton";
