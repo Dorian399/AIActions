@@ -113,7 +113,7 @@ namespace AIActions.Windows.SettingsControls
             catch (Exception ex) 
             {
                 pipPackages.Items.Clear();
-                pipPackages.Items.Add("Failed to retrive pip packages.");
+                pipPackages.Items.Add("Failed to retrieve pip packages.");
             }
 
 
