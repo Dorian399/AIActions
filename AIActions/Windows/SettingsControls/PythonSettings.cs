@@ -26,20 +26,8 @@ namespace AIActions.Windows.SettingsControls
                 throw new DirectoryNotFoundException("Directory does not exist.");
             }
             long size = 0;
-            try
-            {
-                size += directory.GetFiles().Sum(file => file.Length);
-                size += directory.GetDirectories().Sum(GetDirectorySize);
-            }
-            catch (UnauthorizedAccessException)
-            {
-                Console.WriteLine($"We do not have access to {directory}");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"We encountered an error processing {directory}: ");
-                Console.WriteLine($"{ex.Message}");
-            }
+            size += directory.GetFiles().Sum(file => file.Length);
+            size += directory.GetDirectories().Sum(GetDirectorySize);
             return size;
         }
 
