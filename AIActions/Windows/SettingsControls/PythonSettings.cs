@@ -98,7 +98,23 @@ namespace AIActions.Windows.SettingsControls
                 pythonScriptsAmountLabel.Text += "0";
             }
 
-
+            try
+            {
+                PackageManager.GetPackagesAsync(token).ContinueWith(t => {
+                    List<string> packages = t.Result;
+                    pipPackages.Items.Clear();
+                    foreach (string package in packages)
+                    {
+                        pipPackages.Items.Add(package);
+                    }
+                    pipPackages.Enabled = true;
+                }, TaskContinuationOptions.ExecuteSynchronously);
+            }
+            catch (Exception ex) 
+            {
+                pipPackages.Items.Clear();
+                pipPackages.Items.Add("Failed to retrive pip packages.");
+            }
 
 
         }

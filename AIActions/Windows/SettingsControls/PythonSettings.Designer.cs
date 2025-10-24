@@ -124,8 +124,9 @@
             // 
             pipPackages.CheckOnClick = true;
             pipPackages.Dock = DockStyle.Fill;
+            pipPackages.Enabled = false;
             pipPackages.FormattingEnabled = true;
-            pipPackages.Items.AddRange(new object[] { "test1", "test2", "test3", "test4", "test5" });
+            pipPackages.Items.AddRange(new object[] { "Loading..." });
             pipPackages.Location = new Point(3, 23);
             pipPackages.Name = "pipPackages";
             pipPackages.Size = new Size(243, 170);
