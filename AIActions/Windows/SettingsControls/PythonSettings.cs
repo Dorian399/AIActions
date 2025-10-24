@@ -48,7 +48,6 @@ namespace AIActions.Windows.SettingsControls
             try
             {
                 long dirSize = GetDirectorySize(new DirectoryInfo(Paths.PipPackagesFolder));
-                float readableSize;
 
                 if (dirSize < 1024)
                 {
@@ -67,7 +66,7 @@ namespace AIActions.Windows.SettingsControls
                     pipSizeLabel.Text = pipSizeText + (dirSize / (1024.0 * 1024 * 1024)).ToString("F2") + " GB";
                 }
             }
-            catch (Exception ex)
+            catch
             {
                 pipSizeLabel.Text = pipSizeText + "0 MB";
             }
@@ -93,11 +92,12 @@ namespace AIActions.Windows.SettingsControls
                 }
                 pythonScriptsAmountLabel.Text += scriptsHistoryCount.ToString();
             }
-            catch (Exception ex)
+            catch
             {
                 pythonScriptsAmountLabel.Text += "0";
             }
 
+            // Add pip packages to checkbox list.
             try
             {
                 PackageManager.GetPackagesAsync(token).ContinueWith(t => {
@@ -110,7 +110,7 @@ namespace AIActions.Windows.SettingsControls
                     pipPackages.Enabled = true;
                 }, TaskContinuationOptions.ExecuteSynchronously);
             }
-            catch (Exception ex) 
+            catch
             {
                 pipPackages.Items.Clear();
                 pipPackages.Items.Add("Failed to retrieve pip packages.");
