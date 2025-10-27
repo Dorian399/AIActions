@@ -123,10 +123,10 @@ namespace AIActions
 
             ResultExec executor = new ResultExec();
 
-            const int maxLines = 10000;
             executor.OnOutput = text =>
             {
-                STDOut.AppendText(text+"\n");
+                if (STDOut != null && !STDOut.IsDisposed)
+                    STDOut.AppendText(text+"\n");
             };
 
             bool exitBool=false;
@@ -142,7 +142,8 @@ namespace AIActions
                 );
             }
             catch (Exception ex) {
-                STDOut.AppendText("\n Result execution failed: "+ex.Message + "\n");
+                if (STDOut != null && !STDOut.IsDisposed)
+                    STDOut.AppendText("\n Result execution failed: "+ex.Message + "\n");
             }
 
             if (exitBool)
