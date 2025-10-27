@@ -34,6 +34,7 @@
             Configs = new TabPage();
             configsList1 = new AIActions.Windows.ConfigWindows.ConfigsList();
             Python = new TabPage();
+            pythonSettings1 = new AIActions.Windows.SettingsControls.PythonSettings();
             Updates = new TabPage();
             updateChecker1 = new AIActions.Windows.SettingsControls.UpdateChecker();
             tableLayoutPanel2 = new TableLayoutPanel();
@@ -41,7 +42,6 @@
             settingsTabButton2 = new AIActions.Windows.SettingsControls.SettingsTabButton();
             settingsTabButton3 = new AIActions.Windows.SettingsControls.SettingsTabButton();
             closeButton = new Button();
-            pythonSettings1 = new AIActions.Windows.SettingsControls.PythonSettings();
             tableLayoutPanel1.SuspendLayout();
             tabControl1.SuspendLayout();
             Configs.SuspendLayout();
@@ -65,7 +65,7 @@
             tableLayoutPanel1.RowCount = 2;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
-            tableLayoutPanel1.Size = new Size(800, 450);
+            tableLayoutPanel1.Size = new Size(802, 453);
             tableLayoutPanel1.TabIndex = 0;
             // 
             // tabControl1
@@ -83,7 +83,7 @@
             tabControl1.Name = "tabControl1";
             tabControl1.Padding = new Point(0, 0);
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(639, 410);
+            tabControl1.Size = new Size(641, 413);
             tabControl1.SizeMode = TabSizeMode.Fixed;
             tabControl1.TabIndex = 1;
             // 
@@ -94,7 +94,7 @@
             Configs.Location = new Point(4, 5);
             Configs.Margin = new Padding(0);
             Configs.Name = "Configs";
-            Configs.Size = new Size(631, 401);
+            Configs.Size = new Size(633, 404);
             Configs.TabIndex = 0;
             Configs.Text = "Configs";
             Configs.UseVisualStyleBackColor = true;
@@ -105,7 +105,7 @@
             configsList1.Location = new Point(0, 0);
             configsList1.Name = "configsList1";
             configsList1.OnConfigChosen = null;
-            configsList1.Size = new Size(631, 401);
+            configsList1.Size = new Size(633, 404);
             configsList1.TabIndex = 0;
             // 
             // Python
@@ -115,17 +115,27 @@
             Python.Location = new Point(4, 5);
             Python.Name = "Python";
             Python.Padding = new Padding(3);
-            Python.Size = new Size(631, 401);
+            Python.Size = new Size(633, 404);
             Python.TabIndex = 1;
             Python.Text = "Python";
             Python.UseVisualStyleBackColor = true;
+            // 
+            // pythonSettings1
+            // 
+            pythonSettings1.Dock = DockStyle.Fill;
+            pythonSettings1.Font = new Font("Segoe UI", 9F);
+            pythonSettings1.Location = new Point(3, 3);
+            pythonSettings1.Margin = new Padding(3, 4, 3, 4);
+            pythonSettings1.Name = "pythonSettings1";
+            pythonSettings1.Size = new Size(627, 398);
+            pythonSettings1.TabIndex = 0;
             // 
             // Updates
             // 
             Updates.Controls.Add(updateChecker1);
             Updates.Location = new Point(4, 5);
             Updates.Name = "Updates";
-            Updates.Size = new Size(631, 401);
+            Updates.Size = new Size(633, 404);
             Updates.TabIndex = 2;
             Updates.Text = "Updates";
             Updates.UseVisualStyleBackColor = true;
@@ -135,7 +145,7 @@
             updateChecker1.Dock = DockStyle.Fill;
             updateChecker1.Location = new Point(0, 0);
             updateChecker1.Name = "updateChecker1";
-            updateChecker1.Size = new Size(631, 401);
+            updateChecker1.Size = new Size(633, 404);
             updateChecker1.TabIndex = 0;
             // 
             // tableLayoutPanel2
@@ -155,13 +165,13 @@
             tableLayoutPanel2.RowStyles.Add(new RowStyle());
             tableLayoutPanel2.RowStyles.Add(new RowStyle());
             tableLayoutPanel2.RowStyles.Add(new RowStyle());
-            tableLayoutPanel2.Size = new Size(152, 401);
+            tableLayoutPanel2.Size = new Size(152, 404);
             tableLayoutPanel2.TabIndex = 2;
             // 
             // settingsTabButton1
             // 
             settingsTabButton1.ActiveBackgroundColor = SystemColors.GradientInactiveCaption;
-            settingsTabButton1.BackColor = SystemColors.Window;
+            settingsTabButton1.BackColor = SystemColors.GradientInactiveCaption;
             settingsTabButton1.BorderColor = SystemColors.Highlight;
             settingsTabButton1.Dock = DockStyle.Top;
             settingsTabButton1.HoverBackgroundColor = Color.FromArgb(223, 236, 249);
@@ -178,7 +188,7 @@
             // settingsTabButton2
             // 
             settingsTabButton2.ActiveBackgroundColor = SystemColors.GradientInactiveCaption;
-            settingsTabButton2.BackColor = SystemColors.GradientInactiveCaption;
+            settingsTabButton2.BackColor = SystemColors.Window;
             settingsTabButton2.BorderColor = SystemColors.Highlight;
             settingsTabButton2.Dock = DockStyle.Top;
             settingsTabButton2.HoverBackgroundColor = Color.FromArgb(223, 236, 249);
@@ -213,7 +223,7 @@
             // 
             closeButton.Dock = DockStyle.Right;
             closeButton.Font = new Font("Segoe UI", 10F);
-            closeButton.Location = new Point(700, 413);
+            closeButton.Location = new Point(702, 416);
             closeButton.Margin = new Padding(3, 3, 6, 6);
             closeButton.Name = "closeButton";
             closeButton.Size = new Size(94, 31);
@@ -222,23 +232,14 @@
             closeButton.UseVisualStyleBackColor = true;
             closeButton.Click += CloseButton_Click;
             // 
-            // pythonSettings1
-            // 
-            pythonSettings1.Dock = DockStyle.Fill;
-            pythonSettings1.Font = new Font("Segoe UI", 9F);
-            pythonSettings1.Location = new Point(3, 3);
-            pythonSettings1.Margin = new Padding(3, 4, 3, 4);
-            pythonSettings1.Name = "pythonSettings1";
-            pythonSettings1.Size = new Size(625, 395);
-            pythonSettings1.TabIndex = 0;
-            // 
             // SettingsWindow
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(802, 453);
             Controls.Add(tableLayoutPanel1);
             Icon = Properties.Resources.Icon;
+            MinimumSize = new Size(635, 310);
             Name = "SettingsWindow";
             Text = "Settings";
             FormClosing += SettingsWindow_FormClosing;
