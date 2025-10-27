@@ -42,14 +42,14 @@ namespace AIActions.Python
             return packages;
         }
 
-        public static async Task<bool> RemovePackages(string[] names, Control? uiControl=null,CancellationToken token = default)
+        public static async Task<bool> RemovePackages(List<string> packageNames, Control? uiControl=null,CancellationToken token = default)
         {
 
             if(!Path.Exists(Paths.TemporaryFilesFolder))
                 Directory.CreateDirectory(Paths.TemporaryFilesFolder);
 
             StringBuilder packages = new StringBuilder();
-            foreach (string name in names)
+            foreach (string name in packageNames)
             {
                 if (name == "pip")
                     continue;
@@ -75,7 +75,7 @@ namespace AIActions.Python
                 }
             };
 
-            int code = await executor.StartAsync(Paths.PythonExecutable, $"-m pip uninstall -r \"{Path.GetFullPath(filePath)}\"", token);
+            int code = await executor.StartAsync(Paths.PythonExecutable, $"-m pip uninstall -y -r \"{Path.GetFullPath(filePath)}\"", token);
 
             if (code != 0)
                 return false;
