@@ -91,6 +91,7 @@
             // 
             // removeAllButton
             // 
+            removeAllButton.Enabled = false;
             removeAllButton.Font = new Font("Segoe UI", 8F);
             removeAllButton.Location = new Point(3, 23);
             removeAllButton.Name = "removeAllButton";
@@ -98,9 +99,11 @@
             removeAllButton.TabIndex = 1;
             removeAllButton.Text = "Remove all packages";
             removeAllButton.UseVisualStyleBackColor = true;
+            removeAllButton.Click += RemoveAllButton_Click;
             // 
             // removeSelectedButton
             // 
+            removeSelectedButton.Enabled = false;
             removeSelectedButton.Font = new Font("Segoe UI", 8F);
             removeSelectedButton.Location = new Point(3, 58);
             removeSelectedButton.Name = "removeSelectedButton";
@@ -108,6 +111,7 @@
             removeSelectedButton.TabIndex = 2;
             removeSelectedButton.Text = "Remove selected packages";
             removeSelectedButton.UseVisualStyleBackColor = true;
+            removeSelectedButton.Click += RemoveSelectedButton_Click;
             // 
             // groupBox1
             // 
@@ -132,6 +136,7 @@
             pipPackages.Size = new Size(243, 170);
             pipPackages.Sorted = true;
             pipPackages.TabIndex = 0;
+            pipPackages.ItemCheck += PipPackages_ItemCheck;
             // 
             // groupBox2
             // 

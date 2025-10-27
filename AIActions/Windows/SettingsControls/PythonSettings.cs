@@ -4,22 +4,32 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace AIActions.Windows.SettingsControls
 {
     public partial class PythonSettings : UserControl
     {
+
+        private enum Packages{
+            Selected,
+            All,
+        }
+
+        private CancellationToken _cancellationToken = default;
+
         public PythonSettings()
         {
             InitializeComponent();
         }
 
-        private static long GetDirectorySize(DirectoryInfo directory)
+        private long GetDirectorySize(DirectoryInfo directory)
         {
             if (directory == null || !directory.Exists)
             {
@@ -31,7 +41,7 @@ namespace AIActions.Windows.SettingsControls
             return size;
         }
 
-        private static int GetDirectoryFileCount(DirectoryInfo directory)
+        private int GetDirectoryFileCount(DirectoryInfo directory)
         {
             if (directory == null || !directory.Exists)
             {
@@ -41,9 +51,91 @@ namespace AIActions.Windows.SettingsControls
             return count;
         }
 
+        private async void RemovePipPackages(Packages removeType,CancellationToken token=default)
+        {
+            List<string> packages = [];
+            if(removeType == Packages.All)
+            {
+                foreach (string package in pipPackages.Items)
+                {
+                    packages.Add(package);
+                }
+            }
+            else
+            {
+                foreach(string package in pipPackages.CheckedItems)
+                {
+                    packages.Add(package);
+                }
+            }
+
+            DialogResult result = MessageBox.Show(
+                $"Are you sure you want to remove {packages.Count} package{(packages.Count == 1 ? "" : "s")}?",
+                "Confirm Removal",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning
+            );
+
+            if (result == DialogResult.No)
+                return;
+
+            removeSelectedButton.Enabled = false;
+            removeAllButton.Enabled = false;
+            pipPackages.Enabled = false;
+
+
+            PackageManager.OnOutput += text =>
+            {
+                if (STDOut != null && !STDOut.IsDisposed)
+                    STDOut.AppendText(text);
+            };
+
+            bool executedProperly = false;
+
+            try
+            {
+               executedProperly = await PackageManager.RemovePackages(packages,this,token);
+            }
+            catch
+            {
+                executedProperly = false;
+            }
+
+            if (executedProperly) {
+                if (STDOut != null && !STDOut.IsDisposed)
+                    STDOut.AppendText($"Sucessfully removed {packages.Count} package{(packages.Count == 1 ? "" : "s")}.\n\n");
+            }
+            else
+            {
+                if(STDOut != null && !STDOut.IsDisposed)
+                    STDOut.AppendText($"Failed to remove some/all packages.\n\n");
+            }
+
+            List<string> newPackageList = await PackageManager.GetPackagesAsync();
+
+            await Task.Delay(500);
+
+            UpdatePipPackagesList(newPackageList);
+            UpdatePipSizeLabel();
+
+            removeAllButton.Enabled = true;
+            pipPackages.Enabled = true;
+
+        }
+
+        private void UpdatePipPackagesList(List<string> packages)
+        {
+            pipPackages.Items.Clear();
+            foreach (string package in packages)
+            {
+                pipPackages.Items.Add(package);
+            }
+            pipPackages.Enabled = true;
+        }
+
         private void UpdatePipSizeLabel()
         {
-            string pipSizeText = pipSizeLabel.Text;
+            string pipSizeText = "Pip packages size: ";
             pipSizeLabel.Text = pipSizeText + "Calculating...";
             try
             {
@@ -72,16 +164,37 @@ namespace AIActions.Windows.SettingsControls
             }
         }
 
+        private void PipPackages_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            int count = pipPackages.CheckedItems.Count;
+
+            if (e.NewValue == CheckState.Checked)
+                count++;
+            else
+                count--;
+
+            removeSelectedButton.Enabled = count > 0;
+        }
+
+        private void RemoveSelectedButton_Click(object sender, EventArgs e)
+        {
+            RemovePipPackages(Packages.Selected, _cancellationToken);
+        }
+
+        private void RemoveAllButton_Click(object sender, EventArgs e)
+        {
+            RemovePipPackages(Packages.All, _cancellationToken);
+        }
+
         private void PythonSettings_Load(object sender, EventArgs e)
         {
-            CancellationToken token = default;
             SettingsWindow? settingsWindow = (SettingsWindow?)FindForm();
             if(settingsWindow != null && settingsWindow.CancellationTokenSource != null)
-                token = settingsWindow.CancellationTokenSource.Token;
+                _cancellationToken = settingsWindow.CancellationTokenSource.Token;
 
             UpdatePipSizeLabel();
 
-            PythonInfo.GetPythonVersion(token).ContinueWith(t => { pythonVersionLabel.Text += t.Result; }, TaskContinuationOptions.ExecuteSynchronously);
+            PythonInfo.GetPythonVersion(_cancellationToken).ContinueWith(t => { pythonVersionLabel.Text += t.Result; }, TaskContinuationOptions.ExecuteSynchronously);
 
             // Show amount of scripts generated, and enables the history button if >0.
             try
@@ -100,14 +213,10 @@ namespace AIActions.Windows.SettingsControls
             // Add pip packages to checkbox list.
             try
             {
-                PackageManager.GetPackagesAsync(token).ContinueWith(t => {
-                    List<string> packages = t.Result;
-                    pipPackages.Items.Clear();
-                    foreach (string package in packages)
-                    {
-                        pipPackages.Items.Add(package);
-                    }
-                    pipPackages.Enabled = true;
+                PackageManager.GetPackagesAsync(_cancellationToken).ContinueWith(t => {
+                    UpdatePipPackagesList(t.Result);
+                    if(pipPackages.Items.Count > 0)
+                        removeAllButton.Enabled = true;
                 }, TaskContinuationOptions.ExecuteSynchronously);
             }
             catch
