@@ -59,8 +59,8 @@
             // HeaderLayout
             // 
             HeaderLayout.ColumnCount = 2;
-            HeaderLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 29.0090084F));
-            HeaderLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 70.99099F));
+            HeaderLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 153F));
+            HeaderLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             HeaderLayout.Controls.Add(ConfigComboBox, 1, 0);
             HeaderLayout.Controls.Add(LoadedConfigsLabel, 0, 0);
             HeaderLayout.Dock = DockStyle.Fill;
@@ -68,8 +68,7 @@
             HeaderLayout.Margin = new Padding(0);
             HeaderLayout.Name = "HeaderLayout";
             HeaderLayout.RowCount = 1;
-            HeaderLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            HeaderLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            HeaderLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             HeaderLayout.Size = new Size(555, 39);
             HeaderLayout.TabIndex = 0;
             // 
@@ -78,10 +77,10 @@
             ConfigComboBox.Dock = DockStyle.Fill;
             ConfigComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             ConfigComboBox.FormattingEnabled = true;
-            ConfigComboBox.Location = new Point(167, 6);
+            ConfigComboBox.Location = new Point(159, 6);
             ConfigComboBox.Margin = new Padding(6, 6, 20, 6);
             ConfigComboBox.Name = "ConfigComboBox";
-            ConfigComboBox.Size = new Size(368, 28);
+            ConfigComboBox.Size = new Size(376, 28);
             ConfigComboBox.TabIndex = 0;
             ConfigComboBox.SelectedIndexChanged += ComboBox_IndexChanged;
             // 
@@ -92,7 +91,7 @@
             LoadedConfigsLabel.Font = new Font("Segoe UI", 10F);
             LoadedConfigsLabel.Location = new Point(3, 0);
             LoadedConfigsLabel.Name = "LoadedConfigsLabel";
-            LoadedConfigsLabel.Size = new Size(155, 39);
+            LoadedConfigsLabel.Size = new Size(147, 39);
             LoadedConfigsLabel.TabIndex = 1;
             LoadedConfigsLabel.Text = "Available configs:";
             LoadedConfigsLabel.TextAlign = ContentAlignment.MiddleRight;
