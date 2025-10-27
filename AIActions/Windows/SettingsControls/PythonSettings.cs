@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Linq;
@@ -184,6 +185,11 @@ namespace AIActions.Windows.SettingsControls
         private void RemoveAllButton_Click(object sender, EventArgs e)
         {
             RemovePipPackages(Packages.All, _cancellationToken);
+        }
+
+        private void PythonHistoryButton_Click(object sender, EventArgs e)
+        {
+            Process.Start("explorer.exe",Paths.PythonScriptsFolder);
         }
 
         private void PythonSettings_Load(object sender, EventArgs e)

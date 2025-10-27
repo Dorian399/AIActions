@@ -202,6 +202,7 @@
             pythonHistoryButton.TabIndex = 2;
             pythonHistoryButton.Text = "Show scripts history";
             pythonHistoryButton.UseVisualStyleBackColor = true;
+            pythonHistoryButton.Click += PythonHistoryButton_Click;
             // 
             // PythonSettings
             // 
