@@ -1,5 +1,6 @@
 ﻿using AIActions.AI.Results;
 using AIActions.Configs;
+using AIActions.Python;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -45,11 +46,12 @@ namespace AIActions.AI
             object promptContext;
 
             FileAttributes attr = File.GetAttributes(folderOrFile);
+            string pythonVersion = await PythonInfo.GetPythonVersion();
 
             if (attr.HasFlag(FileAttributes.Directory))
-                promptContext = new PromptContextFolder(folderOrFile, rawPrompt);
+                promptContext = new PromptContextFolder(folderOrFile, rawPrompt, pythonVersion);
             else
-                promptContext = new PromptContextFolder(folderOrFile, rawPrompt); // TO DO PromptContextFile
+                promptContext = new PromptContextFolder(folderOrFile, rawPrompt, pythonVersion); // TO DO PromptContextFile
 
             string finalPrompt = await PromptFormatter.GetPrompt(promptContext);
             // Make it json safe and remove the quotes.

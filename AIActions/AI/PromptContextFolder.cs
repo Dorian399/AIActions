@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AIActions.Python;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -17,13 +18,13 @@ namespace AIActions.AI
         public string FilesList { get; private set; }
         public string Prompt {  get; private set; }
 
-        public PromptContextFolder(string filesPath, string prompt)
+        public PromptContextFolder(string filesPath, string prompt, string pythonVersion)
         {
             Prompt = prompt ?? " ";
             FilesPath = filesPath ?? "Path missing.";
             OS = RuntimeInformation.OSDescription ?? "Unknown OS";
 
-            PythonVersion = "3.10"; // TO DO
+            PythonVersion = pythonVersion;
 
             string[] files = Directory.GetFiles(FilesPath);
             string[] directories = Directory.GetDirectories(FilesPath);
