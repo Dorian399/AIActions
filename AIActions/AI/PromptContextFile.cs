@@ -12,7 +12,7 @@ namespace AIActions.AI
     {
         public string PythonVersion { get; private set; } = "N/A";
         public string OS { get; private set; } = "N/A";
-        public string FileName { get; private set; } = "N/A";
+        public string Filename { get; private set; } = "N/A";
         public string FilePath { get; private set; } = "N/A";
         public string AbsolutePath { get; private set; } = "N/A";
         public string FileSize { get; private set; } = "N/A";
@@ -31,11 +31,13 @@ namespace AIActions.AI
 
             PythonVersion = pythonVersion;
 
-            FileName = Path.GetFileName(filePath) ?? "Filename missing";
+            Filename = Path.GetFileName(filePath) ?? "Filename missing";
+
+            FilePath = Path.GetDirectoryName(filePath);
 
             FileInfo file = new FileInfo(filePath!);
 
-            FileSize = file.Length.ToString() ?? "Filesize missing";
+            FileSize = (file.Length.ToString() + "Bytes") ?? "Filesize missing";
 
             FileExtension = file.Extension;
 
