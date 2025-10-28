@@ -119,7 +119,19 @@ namespace AIActions
             // Create and execute the script.
             CancellationToken token = _cancellationTokenSource.Token;
 
-            string workingDirectory = Path.GetFullPath(_folderOrFile);
+            string? workingDirectory = _folderOrFile;
+
+            if (workingDirectory == null || workingDirectory == "")
+            {
+                if (STDOut != null && !STDOut.IsDisposed)
+                    STDOut.AppendText($"Invalid path: {workingDirectory}, aborting execution.\n");
+                return;
+            }
+
+            FileAttributes attr = File.GetAttributes(workingDirectory);
+
+            if (!attr.HasFlag(FileAttributes.Directory))
+                workingDirectory = Path.GetDirectoryName(workingDirectory);
 
             ResultExec executor = new ResultExec();
 

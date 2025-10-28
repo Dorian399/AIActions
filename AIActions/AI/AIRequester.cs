@@ -51,7 +51,7 @@ namespace AIActions.AI
             if (attr.HasFlag(FileAttributes.Directory))
                 promptContext = new PromptContextFolder(folderOrFile, rawPrompt, pythonVersion);
             else
-                promptContext = new PromptContextFolder(folderOrFile, rawPrompt, pythonVersion); // TO DO PromptContextFile
+                promptContext = new PromptContextFile(folderOrFile, rawPrompt, pythonVersion);
 
             string finalPrompt = await PromptFormatter.GetPrompt(promptContext);
             // Make it json safe and remove the quotes.

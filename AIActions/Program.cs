@@ -35,6 +35,25 @@ namespace AIActions
             directoryKeyRoot.SetValue("Icon", "\""+Paths.ContextMenuIcon+"\"");
             directoryKeyCommand.SetValue("","\""+Application.ExecutablePath+"\" \"%V\"");
 
+            // Right click on single file registries.
+            string fileKeyPath = "*\\shell";
+            RegistryKey? fileKey = Registry.ClassesRoot.OpenSubKey(fileKeyPath, writable: true);
+            if (fileKey == null)
+                throw new Exception("Failed to open registry key: " + fileKeyPath);
+
+            RegistryKey fileKeyRoot = fileKey.CreateSubKey("AIActions", writable: true);
+            if (fileKeyRoot == null)
+                throw new Exception("Failed to create registry sub key \"AIActions\"");
+
+            RegistryKey fileKeyCommand = fileKeyRoot.CreateSubKey("command", writable: true);
+            if (fileKeyRoot == null)
+                throw new Exception("Failed to create registry sub key \"command\"");
+
+            fileKeyRoot.SetValue("", "Open with AIActions");
+            fileKeyRoot.SetValue("Icon", "\"" + Paths.ContextMenuIcon + "\"");
+            fileKeyRoot.SetValue("MultiSelectModel", "Single");
+            fileKeyCommand.SetValue("", "\"" + Application.ExecutablePath + "\" \"%1\"");
+
         }
 
         /// <summary>
