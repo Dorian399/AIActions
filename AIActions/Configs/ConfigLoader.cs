@@ -84,9 +84,23 @@ namespace AIActions.Configs
                     return null;
                 }
 
+                // Check if base config exists.
+                string? baseFilePath=null;
+                foreach(var kvp in Paths.ConfigFiles)
+                {
+                    if (kvp.Key+".json" == baseString)
+                    {
+                        baseFilePath = kvp.Value;
+                    }
+                }
+                if (baseFilePath == null)
+                {
+                    MessageBox.Show("Couldn't find base config file for ('" + filePath + "'), make sure the base config file exists and is properly imported.");
+                    return null;
+                }
+
                 // Overlap the child over the base.
-                string directory = Path.GetDirectoryName(filePath);
-                jsonBase = await LoadBase(Path.Combine(directory, baseString));
+                jsonBase = await LoadBase(baseFilePath);
 
                 if (jsonBase == null)
                 {
@@ -141,7 +155,7 @@ namespace AIActions.Configs
             return text.Substring(1, text.Length - 2).Trim();
         }
 
-        public async Task<ParsedConfig?> LoadFromFile(string filePath)
+        public async Task<ParsedConfig?> LoadFromFile(string filePath,bool configValidation=false)
         {
             // Reset variables to prevent issues.
             _loadedFiles = new HashSet<string>();
@@ -175,10 +189,13 @@ namespace AIActions.Configs
             }
 
             // Don't load when hidden=true
-            if(jsonParsed.TryGetValue("hidden",out var hiddenElem) && hiddenElem is JsonElement hidden)
+            if (!configValidation)
             {
-                if (hidden.GetBoolean())
-                    return null;
+                if (jsonParsed.TryGetValue("hidden", out var hiddenElem) && hiddenElem is JsonElement hidden)
+                {
+                    if (hidden.GetBoolean())
+                        return null;
+                }
             }
 
             // Load base config if it exists
@@ -199,7 +216,7 @@ namespace AIActions.Configs
             }
 
             // Parse user_variables.
-            List<string>? parsedUserVars = ParseJsonElement<List<string>>(keyName: "user_variables"); ;
+            List<string>? parsedUserVars = ParseJsonElement<List<string>>(keyName: "user_variables");
 
             if (parsedUserVars != null)
             {
