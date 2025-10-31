@@ -79,7 +79,7 @@ namespace AIActions.ExternalData
                 // Example: (user_data/config_files/config.json) will have priority over (data/config_files/config.json).
                 SortedDictionary<string, string> configs = new SortedDictionary<string, string>();
                 // User configs
-                foreach(string file in Directory.GetFiles(Paths.ConfigFilesFolder))
+                foreach(string file in Directory.GetFiles(Paths.UserConfigFilesFolder))
                 {
                     string ext = Path.GetExtension(file);
                     string filename = Path.GetFileNameWithoutExtension(file);
