@@ -60,7 +60,7 @@ namespace AIActions
         ///  The main entry point for the application.
         /// </summary>
         [STAThread]
-        static async Task<int> Main(string[] args)
+        static int Main(string[] args)
         {
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
@@ -150,7 +150,7 @@ namespace AIActions
             }
 
             ConfigLoader loader = new ConfigLoader();
-            ParsedConfig? parsedConfig = await loader.LoadFromAppSettings();
+            ParsedConfig? parsedConfig = loader.LoadFromAppSettings().GetAwaiter().GetResult();
 
             ApplicationConfiguration.Initialize();
 
