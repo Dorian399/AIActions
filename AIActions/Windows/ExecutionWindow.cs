@@ -170,6 +170,13 @@ namespace AIActions
             Close();
         }
 
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == Keys.Enter && Confirm.Enabled)
+                ExecutionWindow_ConfirmClicked(this,new EventArgs());
+            return false;
+        }
+
         private void ExecutionWindow_FormClosed(object sender, FormClosedEventArgs e)
         {
             _cancellationTokenSource.Cancel();
