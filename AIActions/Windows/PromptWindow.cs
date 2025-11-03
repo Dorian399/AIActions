@@ -90,6 +90,7 @@ namespace AIActions
             ExecutionWindow ExecWin = new ExecutionWindow(promptText,_currentConfig,_currentFolderOrFile);
             ExecWin.ParentWindow = this;
             this.Hide();
+            ExecWin.Text = this.Text;
             ExecWin.Show();
         }
 
