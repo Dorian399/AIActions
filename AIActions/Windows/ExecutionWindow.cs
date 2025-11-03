@@ -138,7 +138,7 @@ namespace AIActions
             executor.OnOutput = text =>
             {
                 if (STDOut != null && !STDOut.IsDisposed)
-                    STDOut.AppendText(text+"\n");
+                    STDOut.AppendText(text);
             };
 
             bool exitBool=false;
