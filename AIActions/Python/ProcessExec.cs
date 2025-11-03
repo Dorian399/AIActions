@@ -15,43 +15,55 @@ namespace AIActions.Python
         public Action<string>? OnOutput { get; set; }
         public Control? UiControl { get; set; }
 
-        private const int QUEUE_MAX_SIZE = 100;
-        private const int OUTPUT_INTERVAL = 10;
+        private const int QUEUE_CHUNK_SIZE = 100; // Maximum amount of lines sent in a single interval
+        private const int OUTPUT_INTERVAL = 10; // Output sending interval in ms.
+
+        private ConcurrentQueue<string> OutputQueue= new ConcurrentQueue<string>();
 
         public ProcessExec() { }
 
-        private Task SendOutput(ref ConcurrentQueue<string> queue)
+        private async Task AwaitQueue()
         {
-            TaskCompletionSource tcs = new TaskCompletionSource();
-            StringBuilder sb = new StringBuilder();
-            while (queue.TryDequeue(out string? data))
+            while (OutputQueue.Count > 0)
             {
-                sb.AppendLine(data);
+                await Task.Delay(OUTPUT_INTERVAL);
             }
-            string fullData = sb.ToString();
+            await Task.Delay(OUTPUT_INTERVAL);
+        }
+
+        private async Task SendOutput()
+        {
+            string fullData = await Task.Run(() =>
+            {
+                StringBuilder sb = new StringBuilder();
+                int dequeueCount = 0;
+                while (OutputQueue.TryDequeue(out string? data) && dequeueCount < QUEUE_CHUNK_SIZE)
+                {
+                    sb.AppendLine(data);
+                    dequeueCount++;
+                }
+                return sb.ToString();
+            });
 
             if (string.IsNullOrWhiteSpace(fullData))
-            {
-                tcs.SetResult();
-                return tcs.Task;
-            }
+                return;
 
             if (UiControl != null && UiControl.IsHandleCreated)
             {
-
-                UiControl?.BeginInvoke(new Action(() => {
+                var tcs = new TaskCompletionSource();
+                UiControl.BeginInvoke(new Action(() =>
+                {
                     OnOutput?.Invoke(fullData);
                     tcs.SetResult();
                 }));
+                await tcs.Task;
             }
             else
             {
                 OnOutput?.Invoke(fullData);
-                tcs.SetResult();
             }
-            
-            return tcs.Task;
         }
+
 
         public async Task<int> StartAsync(string executable, string arguments, CancellationToken token = default, string workingDirectory = "")
         {
@@ -65,28 +77,23 @@ namespace AIActions.Python
             process.StartInfo.RedirectStandardOutput = true;
             process.StartInfo.RedirectStandardError = true;
 
-            // Throttle the output to 1000 lines/calls per seconds, to prevent UI freezes.
-            ConcurrentQueue<string> OutputQueue = new ConcurrentQueue<string>();
-
             System.Timers.Timer OutputThrottler = new System.Timers.Timer(OUTPUT_INTERVAL);
             OutputThrottler.AutoReset = true;
             OutputThrottler.Start();
-            OutputThrottler.Elapsed += (source, e) =>
+            OutputThrottler.Elapsed += async (source, e) =>
             {
-                SendOutput(ref OutputQueue);
+                await SendOutput();
             };
 
             process.OutputDataReceived += (s, e) => {
                 if (!string.IsNullOrEmpty(e.Data))
                 {
-                    if(OutputQueue.Count <= QUEUE_MAX_SIZE)
                         OutputQueue.Enqueue(e.Data);
                 }
             };
             process.ErrorDataReceived += (s, e) => {
                 if (!string.IsNullOrEmpty(e.Data))
                 {
-                    if (OutputQueue.Count <= QUEUE_MAX_SIZE)
                         OutputQueue.Enqueue(e.Data);
                 }
             };
@@ -104,9 +111,9 @@ namespace AIActions.Python
                     process.Kill(entireProcessTree: true);
                 throw;
             }
+            // Waits until the whole queue is processed.
+            await AwaitQueue();
             OutputThrottler.Stop();
-            // Send the rest of the output.
-            await SendOutput(ref OutputQueue);
             return process.ExitCode;
         }
     }
