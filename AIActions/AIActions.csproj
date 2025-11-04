@@ -7,6 +7,8 @@
 		<UseWindowsForms>true</UseWindowsForms>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<ApplicationIcon>icon.ico</ApplicationIcon>
+		<!--FileVersion>1.0.0</FileVersion-->
+		<!--InformationalVersion>1.0.0</InformationalVersion-->
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -26,13 +28,28 @@
 		<None Update="data\config_files\gemini_flash.json">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
+		<None Update="data\config_files\openai_base.json">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="data\config_files\openai_gpt5.json">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="data\config_files\openai_gpt5mini.json">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="data\config_files\openai_gpt5nano.json">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
 		<None Update="data\config_files\openrouter_configurable.json">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 		<None Update="data\config_files\ollama_configurable.json">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
-		<None Update="data\context_menu_icon.ico">
+		<None Update="data\icons\context_menu_icon.ico">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="data\prompts\prompt_file.txt">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 		<None Update="data\prompts\prompt_folder.txt">

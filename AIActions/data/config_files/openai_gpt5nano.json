@@ -1,0 +1,8 @@
+{
+	"name": "OpenAI GPT-5 nano",
+	"base": "openai_base.json",
+	"hidden": false,
+	"json_variables": {
+		"MODEL": "gpt-5-nano"
+	}
+}
