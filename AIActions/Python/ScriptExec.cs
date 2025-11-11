@@ -15,16 +15,16 @@ namespace AIActions.Python
             ProcessExec process = new ProcessExec();
             process.UiControl = uiControl;
             process.OnOutput = text => OnOutput?.Invoke(text);
-            OnOutput?.Invoke("Running script: " + scriptPath+"\n");
+            OnOutput?.Invoke("Running script: " + scriptPath+"\n\n");
             int exitCode = await process.StartAsync(Paths.PythonExecutable,scriptPath,token,workingDirectory);
             if(exitCode == 0)
             {
-                OnOutput?.Invoke("Script completed successfully.");
+                OnOutput?.Invoke("\nScript completed successfully.");
                 return true;
             }
             else
             {
-                OnOutput?.Invoke("Script execution failed, code: "+exitCode.ToString()+".");
+                OnOutput?.Invoke("\nScript execution failed, code: "+exitCode.ToString()+".");
                 return false;
             }
         }
