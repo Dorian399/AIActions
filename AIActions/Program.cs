@@ -65,6 +65,8 @@ namespace AIActions
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
 
+
+            // Required files/paths.
             if (!Directory.Exists(Paths.ExternalDataFolder))
             {
                 MessageBox.Show($"Missing data directory, check your {Paths.ExternalDataFolder} directory or reinstall the program.");
@@ -100,6 +102,14 @@ namespace AIActions
                 MessageBox.Show($"Missing prompts_file.txt file, check your {Paths.PromptFileTextFile} directory or reinstall the program.");
                 return 1;
             }
+
+            // Required user_data folders creation (if missing).
+
+            if (!File.Exists(Paths.UserDataFolder))
+                Directory.CreateDirectory(Paths.UserDataFolder);
+
+            if (!File.Exists(Paths.UserConfigFilesFolder))
+                Directory.CreateDirectory(Paths.UserConfigFilesFolder);
 
             // Register logic explanation:
             // register argument = register with results in a message box (stops execution after register).
