@@ -22,7 +22,9 @@ namespace AIActions.ExternalData
         {
             get
             {
-                return Path.Combine(AppContext.BaseDirectory, "user_data");
+                string path = @"%AppData%/AIActions";
+
+                return Environment.ExpandEnvironmentVariables(path);
             }
         }
 
@@ -76,7 +78,7 @@ namespace AIActions.ExternalData
             get
             {
                 // User configs can override regular configs.
-                // Example: (user_data/config_files/config.json) will have priority over (data/config_files/config.json).
+                // Example: (%AppData%/AIActions/config_files/config.json) will have priority over (data/config_files/config.json).
                 SortedDictionary<string, string> configs = new SortedDictionary<string, string>();
                 // User configs
                 foreach(string file in Directory.GetFiles(Paths.UserConfigFilesFolder))
