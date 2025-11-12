@@ -9,6 +9,8 @@
 		<ApplicationIcon>icon.ico</ApplicationIcon>
 		<FileVersion>1.0.0</FileVersion>
 		<InformationalVersion>1.0.0</InformationalVersion>
+		<PublishSingleFile>true</PublishSingleFile>
+		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
 	</PropertyGroup>
 
 	<ItemGroup>
