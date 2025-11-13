@@ -1,4 +1,6 @@
-# AI Actions
+# <img width="32" height="32" alt="32x32" src="https://github.com/user-attachments/assets/d2cd6d0a-6202-4e43-8aa3-d21e19e485d6" /> AI Actions
+
+
 
 AIActions is a program made to easily perform any batch operations using AI. It works with both cloud based AI models as well as locally hosted ones.
 
@@ -10,10 +12,16 @@ If you wish to make your own config file check out this [template](http://google
 ## Screenshot
 
 <img width="791" height="119" alt="image" src="https://github.com/user-attachments/assets/557da4d9-bc71-4385-bbbe-bb7fd587d0f6" />
+<br>
 <img width="799" height="491" alt="image" src="https://github.com/user-attachments/assets/faf63aab-d9c3-4e8e-b5bb-afa6a62ff528" />
+<br>
 <img width="798" height="228" alt="image" src="https://github.com/user-attachments/assets/32fc4f78-30d7-4909-9e51-ba613a873502" />
+<br>
 <img width="802" height="229" alt="image" src="https://github.com/user-attachments/assets/4e31c420-5c65-49bb-bba1-41d556800d8d" />
+<br>
 <img width="273" height="197" alt="image" src="https://github.com/user-attachments/assets/1fedc5c2-0986-48da-9669-c5413f91bf16" />
+
+
 
 
 
