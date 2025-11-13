@@ -7,7 +7,7 @@ AIActions is a program made to easily perform any batch operations using AI. It 
 ## Config files
 
 The program supports importing user-made configuration files, making it very flexible in terms of the AI backend used.
-If you wish to make your own config file check out this [template](http://google.com).
+If you wish to make your own config file check out this [template](https://github.com/Dorian399/AIActions/wiki/Example-config-files).
 
 ## Screenshot
 
