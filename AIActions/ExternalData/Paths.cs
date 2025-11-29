@@ -22,7 +22,7 @@ namespace AIActions.ExternalData
         {
             get
             {
-                string path = @"%AppData%/AIActions";
+                string path = @"%AppData%\AIActions";
 
                 return Environment.ExpandEnvironmentVariables(path);
             }
