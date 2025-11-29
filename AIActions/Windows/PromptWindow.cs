@@ -99,7 +99,7 @@ namespace AIActions
             if ( _settingsWindow!=null && !_settingsWindow.IsDisposed)
                 return;
             _settingsWindow = new SettingsWindow();
-            _settingsWindow.Show();
+            _settingsWindow.ShowDialog(this);
         }
 
         private void PromptBox_EnterPressed(object sender, EventArgs e)
