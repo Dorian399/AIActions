@@ -32,6 +32,7 @@ namespace AIActions.Windows
             ConfigLoader loader = new ConfigLoader();
             ParsedConfig? parsedConfig = await loader.LoadFromAppSettings();
             Program.MainWindow.UpdateData(configFile: parsedConfig);
+            Dispose();
         }
     }
 }
